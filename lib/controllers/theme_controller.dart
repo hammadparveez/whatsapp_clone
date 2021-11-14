@@ -22,10 +22,22 @@ class ThemeController extends StateNotifier<ThemeMode> {
 
   static ThemeData get lightTheme {
     return ThemeData(
+        textTheme: const TextTheme(
+            headline6:
+                TextStyle(color: kWhiteColor)),
+        iconTheme: const IconThemeData(color: kWhiteColor, size: 26),
         colorScheme: const ColorScheme.light(
-            onSecondary: kWhiteColor,
-            primary: kPrimaryColor,
-            secondary: kSecondaryColor));
+          //onSecondary: kWhiteColor,
+          //onSurface: kWhiteColor,
+          //onBackground: kWhiteColor,
+          //brightness: Brightness.light,
+          //primaryVariant: kWhiteColor,
+          //secondaryVariant: kWhiteColor,
+          //surface: kWhiteColor,
+
+          primary: kPrimaryColor,
+          secondary: kSecondaryColor,
+        ));
   }
 
   static ThemeData get darkTheme {

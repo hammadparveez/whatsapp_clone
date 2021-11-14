@@ -17,7 +17,6 @@ class _AppViewState extends ConsumerState<AppView> {
   @override
   void initState() {
     super.initState();
-    ref.read(themeController.notifier).setStatusBarColor();
   }
 
   @override
