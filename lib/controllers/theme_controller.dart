@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:whatsapp_clone/res/colors.dart';
 
 class ThemeController extends StateNotifier<ThemeMode> {
   ThemeMode _themeMode = ThemeMode.light;
 
-  ThemeController([ThemeMode state = ThemeMode.light]) : super(state);
+  ThemeController() : super(ThemeMode.light);
 
   ThemeMode get themeMode => _themeMode;
 
@@ -14,10 +15,17 @@ class ThemeController extends StateNotifier<ThemeMode> {
     state = mode;
   }
 
+  void setStatusBarColor() {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: kPrimaryColor));
+  }
+
   static ThemeData get lightTheme {
     return ThemeData(
         colorScheme: const ColorScheme.light(
-            primary: kPrimaryColor, secondary: kSecondaryColor));
+            onSecondary: kWhiteColor,
+            primary: kPrimaryColor,
+            secondary: kSecondaryColor));
   }
 
   static ThemeData get darkTheme {
