@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.whatsapp_clone">
    <application
-        android:label="whatsapp_clone"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Whatsapp Clone"
+        android:icon="@mipmap/whatsapp">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
