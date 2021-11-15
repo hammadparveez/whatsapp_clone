@@ -12,12 +12,14 @@ class CustomIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 25,
-      width: kMinInteractiveDimension * .8,
-      child: InkResponse(
-        radius: 20,
-        child: icon,
-        onTap: onTap,
+      height: 30,
+      width: kMinInteractiveDimension * 1,
+      child: Center(
+        child: InkResponse(
+          radius: 20,
+          child: icon,
+          onTap: onTap,
+        ),
       ),
     );
   }
