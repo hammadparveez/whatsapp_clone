@@ -19,17 +19,16 @@ class ThemeController extends StateNotifier<ThemeMode> {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: kPrimaryColor));
   }
-  static const  _textTheme =  TextTheme(
+
+  static const _textTheme = TextTheme(
     subtitle1: TextStyle(overflow: TextOverflow.ellipsis),
-    
-    bodyText1:TextStyle(overflow: TextOverflow.ellipsis),
-            headline6:
-                TextStyle(color: kWhiteColor),
-                );
+    bodyText1: TextStyle(overflow: TextOverflow.ellipsis),
+    headline6: TextStyle(color: kWhiteColor),
+  );
   static ThemeData get lightTheme {
     return ThemeData(
         textTheme: _textTheme,
-        iconTheme: const IconThemeData(color: kWhiteColor, size: 26),
+        iconTheme: const IconThemeData(color: kLightDarkGrey, size: 26),
         colorScheme: const ColorScheme.light(
           //onSecondary: kWhiteColor,
           //onSurface: kWhiteColor,
@@ -46,7 +45,7 @@ class ThemeController extends StateNotifier<ThemeMode> {
 
   static ThemeData get darkTheme {
     return ThemeData(
-      textTheme: _textTheme,
+        textTheme: _textTheme,
         colorScheme: const ColorScheme.light(
             primary: kDarkPrimaryColor, secondary: kDarkSecondaryColor));
   }

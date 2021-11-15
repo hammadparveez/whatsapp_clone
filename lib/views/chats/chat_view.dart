@@ -8,12 +8,18 @@ class ChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: mockList.length,
-      itemBuilder: (_, index) {
-        final user = mockList[index];
-        return ChatListTile(user: user);
-      },
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+            delegate: SliverChildBuilderDelegate(
+          (_, index) {
+            final user = mockList[index];
+            return ChatListTile(user: user);
+          },
+          childCount: mockList.length,
+          
+        )),
+      ],
     );
   }
 }

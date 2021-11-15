@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/res/colors.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
 import 'package:whatsapp_clone/models/chat_model/chat_model.dart';
+import 'package:whatsapp_clone/views/components/custom_tile.dart';
 
-class ChatListTile extends StatelessWidget {
+class ChatListTile extends CustomTile<ChatModel> {
   const ChatListTile({
     Key? key,
     required this.user,
-    this.onTap,
-    this.onLongTap,
-  }) : super(key: key);
+    
+  }) : super(key: key, model: user);
 
   final ChatModel user;
-  final VoidCallback? onTap, onLongTap;
 
   @override
   Widget build(BuildContext context) {
