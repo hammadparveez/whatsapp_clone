@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Modify this file to customize your launch splash screen -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@android:color/white" />
-
-    <!-- You can insert your own image assets here -->
-    <!-- <item>
-        <bitmap
+    <item  android:drawable="@color/whatsapp_bg" />
+ <!-- <item android:drawable="@android:color/white" /> -->
+         <!-- You can insert your own image assets here -->
+        <item   >
+         <bitmap
             android:gravity="center"
-            android:src="@mipmap/launch_image" />
+            android:src="@mipmap/whatsapp" />
+        </item>
+ 
+    <!-- You can insert your own image assets here -->
+ 
+<!--    
+       <item android:height="100dp" android:width="300dp" android:gravity="center">
+        <bitmap
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="fill"
+            android:src="@drawable/whatsapp" />
     </item> -->
+    
 </layer-list>
