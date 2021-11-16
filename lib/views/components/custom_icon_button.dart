@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp_clone/res/colors.dart';
 
 class CustomIconButton extends StatelessWidget {
   final Widget icon;
@@ -19,6 +20,7 @@ class CustomIconButton extends StatelessWidget {
       width: kMinInteractiveDimension * factorWidth,
       child: Center(
         child: InkResponse(
+          splashColor: kDefaultSplashColor,
           radius: splashSize,
           child: icon,
           onTap: onTap,

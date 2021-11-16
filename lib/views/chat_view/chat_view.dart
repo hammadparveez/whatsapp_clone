@@ -19,21 +19,39 @@ class ChatView extends StatelessWidget {
             fontSize: 15,
             overflow: TextOverflow.ellipsis,
             fontWeight: FontWeight.normal),
-        leadingWidth: 20,
-        title: Row(
-          children: [
-            Assets.images.avatar.image(height: 35),
-            const SizedBox(width: 5),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Hammad Parveez Alex Murphy'),
-                  Text('online', style: TextStyle(fontSize: 12)),
-                ],
-              ),
+        leadingWidth: 70,
+        titleSpacing: 0,
+        leading: Container(
+          margin: EdgeInsets.all(8),
+          child: InkResponse(
+            highlightShape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(30),
+            onTap: () {},
+            child: Row(
+              children: [
+                Icon(Icons.arrow_back, size: 24),
+                Flexible(child: Assets.images.avatar.image(height: 35)),
+              ],
             ),
-          ],
+          ),
+        ),
+        title: InkWell(
+          onTap: () {},
+          child: Row(
+            children: [
+              //  Assets.images.avatar.image(height: 35),
+              const SizedBox(width: 5),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Hammad Parveez Alex Murphy'),
+                    Text('online', style: TextStyle(fontSize: 12)),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
         actions: [
           CustomIconButton(icon: Icon(Icons.videocam_rounded), onTap: () {}),
@@ -69,8 +87,7 @@ class ChatView extends StatelessWidget {
                             : BubbleNip.rightTop,
                         color: index % 2 == 0 ? kWhiteColor : kChatColor,
                         child: Text(
-                            'Hello, World! What were you doing today ere you doing today ',
-                            textAlign: TextAlign.right),
+                            'Hello, World! What were you doing today were you doing today'),
                       ),
                     ),
                   );
