@@ -8,3 +8,5 @@ const kRedColor = Color(0xFFCF4848);
 const kLightDarkGrey = Color(0xFF929292);
 const kDarkPrimaryColor = Color(0xff075E54);
 const kDarkSecondaryColor = Color(0xFF23423F);
+const kCreamColor = Color(0xffECE5DD);
+const kChatColor = Color(0xffe1ffc7);

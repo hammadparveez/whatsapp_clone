@@ -8,10 +8,10 @@ import 'package:whatsapp_clone/models/status_model/status_model.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
 import 'package:whatsapp_clone/views/components/custom_tile.dart';
 
-import 'package:whatsapp_clone/views/status/mock_list.dart';
+import 'package:whatsapp_clone/views/tabs/status/mock_list.dart';
 
-class StatusView extends StatelessWidget {
-  const StatusView({Key? key}) : super(key: key);
+class StatusTabView extends StatelessWidget {
+  const StatusTabView({Key? key}) : super(key: key);
 
   Widget _myStatusWidget(BuildContext context) {
     return StatusTile(

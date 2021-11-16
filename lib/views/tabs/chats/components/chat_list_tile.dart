@@ -8,8 +8,9 @@ class ChatListTile extends CustomTile<ChatModel> {
   const ChatListTile({
     Key? key,
     required this.user,
-    
-  }) : super(key: key, model: user);
+    VoidCallback? onTap,
+    VoidCallback? onLongTap,
+  }) : super(key: key, model: user, onLongTap: onLongTap, onTap: onTap);
 
   final ChatModel user;
 

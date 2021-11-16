@@ -45,6 +45,7 @@ dependencies:
   flutter_gen: ^4.1.2
   lottie: ^1.2.1
   dotted_border: ^2.0.0+1
+  bubble: ^1.2.1
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:whatsapp_clone/config/routes.dart';
 import 'package:whatsapp_clone/controllers/theme_controller.dart';
 import 'package:whatsapp_clone/pods.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,7 +27,7 @@ class _AppViewState extends ConsumerState<AppView> {
       theme: ThemeController.lightTheme,
       darkTheme: ThemeController.darkTheme,
       themeMode: ref.watch(themeController),
-      home: const MainView(),
+      onGenerateRoute: Routes.onGenerateRoute,
     );
   }
 }
