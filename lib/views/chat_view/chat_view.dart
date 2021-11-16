@@ -5,6 +5,7 @@ import 'package:whatsapp_clone/res/colors.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
 import 'package:whatsapp_clone/views/chat_view/components/message_type_container.dart';
+import 'package:whatsapp_clone/views/chat_view/mock_chats.dart';
 import 'package:whatsapp_clone/views/components/custom_icon_button.dart';
 
 class ChatView extends StatelessWidget {
@@ -12,6 +13,7 @@ class ChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var chats = MockChats().chats;
     return Scaffold(
       appBar: _buildAppBar(context),
       body: Container(
@@ -26,23 +28,55 @@ class ChatView extends StatelessWidget {
             const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
-                itemCount: 50,
+                itemCount: chats.length,
                 itemBuilder: (_, index) {
+                  var chat = chats[index];
                   return Align(
-                    alignment: index % 2 == 0
+                    alignment: !chat.isSent
                         ? Alignment.centerLeft
                         : Alignment.centerRight,
-                    child: SizedBox(
-                      width: context.width * .85,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxWidth: context.width * .85,
+                        minWidth: context.width * .4,
+                      ),
                       child: Bubble(
                         margin: const BubbleEdges.symmetric(
                             horizontal: 8, vertical: 4),
-                        nip: index % 2 == 0
+                        nip: !chat.isSent
                             ? BubbleNip.leftTop
                             : BubbleNip.rightTop,
-                        color: index % 2 == 0 ? kWhiteColor : kChatColor,
-                        child: Text(
-                            'Hello, World! What were you doing today were you doing today'),
+                        color: !chat.isSent ? kWhiteColor : kChatColor,
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(text: chat.message),
+                                    const WidgetSpan(
+                                        child: const SizedBox(width: 8)),
+                                    TextSpan(
+                                      text: chat.time,
+                                      style: context.style.caption
+                                          ?.copyWith(color: Colors.transparent),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              right: 0,
+                              bottom: 0,
+                              child: Text(
+                                chat.time,
+                                style: context.style.caption,
+                                //textAlign: TextAlign.end,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );
