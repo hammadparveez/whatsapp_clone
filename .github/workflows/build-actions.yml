@@ -18,7 +18,7 @@ jobs:
       uses: actions/upload-artifact@v2.2.4
       with:
        name: Whatsapp Clone Apk
-       path: build/release
+       path: ./
 # flutter-release-ios:
 #  runs-on: macos-latest
 #  steps:
