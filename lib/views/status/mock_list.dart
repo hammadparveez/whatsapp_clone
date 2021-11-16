@@ -51,7 +51,7 @@ var mockStatus = const [
       time: 'Today, 11:00 AM'),
   StatusModel(
       statusID: 358,
-      totalStatusCount: 5,
+      totalStatusCount: 10,
       seenStatusCount: 3,
       postedBy: 'Shamir',
       time: '3 mintues ago'),
@@ -69,7 +69,7 @@ var mockStatus = const [
       time: 'Today, 11:00 AM'),
   StatusModel(
       statusID: 358,
-      totalStatusCount: 5,
+      totalStatusCount: 10,
       seenStatusCount: 3,
       postedBy: 'Shamir',
       time: '3 mintues ago'),

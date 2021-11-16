@@ -30,14 +30,7 @@ class ThemeController extends StateNotifier<ThemeMode> {
         textTheme: _textTheme,
         iconTheme: const IconThemeData(color: kLightDarkGrey, size: 26),
         colorScheme: const ColorScheme.light(
-          //onSecondary: kWhiteColor,
-          //onSurface: kWhiteColor,
-          //onBackground: kWhiteColor,
-          //brightness: Brightness.light,
-          //primaryVariant: kWhiteColor,
-          //secondaryVariant: kWhiteColor,
-          //surface: kWhiteColor,
-
+          onSecondary: kWhiteColor,
           primary: kPrimaryColor,
           secondary: kSecondaryColor,
         ));
