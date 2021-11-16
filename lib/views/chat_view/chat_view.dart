@@ -4,6 +4,7 @@ import 'package:whatsapp_clone/gen/assets.gen.dart';
 import 'package:whatsapp_clone/res/colors.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
+import 'package:whatsapp_clone/views/chat_view/components/message_type_container.dart';
 import 'package:whatsapp_clone/views/components/custom_icon_button.dart';
 
 class ChatView extends StatelessWidget {
@@ -12,53 +13,7 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        titleTextStyle: context.style.subtitle2?.copyWith(
-            height: 1.5,
-            color: kWhiteColor,
-            fontSize: 15,
-            overflow: TextOverflow.ellipsis,
-            fontWeight: FontWeight.normal),
-        leadingWidth: 70,
-        titleSpacing: 0,
-        leading: Container(
-          margin: EdgeInsets.all(8),
-          child: InkResponse(
-            highlightShape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(30),
-            onTap: () {},
-            child: Row(
-              children: [
-                Icon(Icons.arrow_back, size: 24),
-                Flexible(child: Assets.images.avatar.image(height: 35)),
-              ],
-            ),
-          ),
-        ),
-        title: InkWell(
-          onTap: () {},
-          child: Row(
-            children: [
-              //  Assets.images.avatar.image(height: 35),
-              const SizedBox(width: 5),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Hammad Parveez Alex Murphy'),
-                    Text('online', style: TextStyle(fontSize: 12)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          CustomIconButton(icon: Icon(Icons.videocam_rounded), onTap: () {}),
-          CustomIconButton(icon: Icon(Icons.phone), onTap: () {}),
-          CustomIconButton(icon: Icon(Icons.more_vert), onTap: () {}),
-        ],
-      ),
+      appBar: _buildAppBar(context),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -100,66 +55,54 @@ class ChatView extends StatelessWidget {
       ),
     );
   }
-}
 
-class MessageTypeContainer extends StatelessWidget {
-  const MessageTypeContainer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-      color: kCreamColor,
-      child: Row(children: [
-        Expanded(
-            child: Container(
-          decoration: BoxDecoration(
-            color: kWhiteColor,
-            borderRadius: BorderRadius.circular(50),
-          ),
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      titleTextStyle: context.style.subtitle2?.copyWith(
+          height: 1.5,
+          color: kWhiteColor,
+          fontSize: 15,
+          overflow: TextOverflow.ellipsis,
+          fontWeight: FontWeight.normal),
+      leadingWidth: 70,
+      titleSpacing: 0,
+      leading: Container(
+        margin: EdgeInsets.all(8),
+        child: InkResponse(
+          highlightShape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(30),
+          onTap: () {},
           child: Row(
             children: [
-              _buildMessageIcon(Icons.emoji_emotions_outlined, () {}),
-              const Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(0, 8, 0, 8),
-                    isCollapsed: true,
-                    isDense: true,
-                    hintText: 'Message',
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              _buildMessageIcon(Icons.attach_file, () {}),
-              _buildMessageIcon(Icons.camera_alt, () {}),
+              Icon(Icons.arrow_back, size: 24),
+              Flexible(child: Assets.images.avatar.image(height: 35)),
             ],
           ),
-        )),
-        const SizedBox(width: 8),
-        Material(
-          color: context.primaryColor,
-          shape: CircleBorder(),
-          clipBehavior: Clip.hardEdge,
-          child: IconButton(
-            color: kWhiteColor,
-            icon: Icon(Icons.mic),
-            onPressed: () {},
-          ),
         ),
-      ]),
-    );
-  }
-
-  Material _buildMessageIcon(IconData icon, [VoidCallback? onTap]) {
-    return Material(
-      type: MaterialType.transparency,
-      child: CustomIconButton(
-        splashSize: 15,
-        factorWidth: .8,
-        icon: Icon(icon, size: 20),
-        onTap: onTap,
       ),
+      title: InkWell(
+        onTap: () {},
+        child: Row(
+          children: [
+            //  Assets.images.avatar.image(height: 35),
+            const SizedBox(width: 5),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Hammad Parveez Alex Murphy'),
+                  Text('online', style: TextStyle(fontSize: 12)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        CustomIconButton(icon: Icon(Icons.videocam_rounded), onTap: () {}),
+        CustomIconButton(icon: Icon(Icons.phone), onTap: () {}),
+        CustomIconButton(icon: Icon(Icons.more_vert), onTap: () {}),
+      ],
     );
   }
 }
