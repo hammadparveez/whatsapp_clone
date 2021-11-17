@@ -10,7 +10,7 @@ class CustomIconButton extends StatelessWidget {
     Key? key,
     required this.icon,
     this.splashSize = 20,
-    this.factorWidth = .8,
+    this.factorWidth = 1,
     this.onTap,
   }) : super(key: key);
   @override
