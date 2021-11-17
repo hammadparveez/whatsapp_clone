@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:whatsapp_clone/config/without_glow_scroll_configuraiton.dart';
 import 'package:whatsapp_clone/res/colors.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
 import 'package:whatsapp_clone/views/components/custom_icon_button.dart';
@@ -51,16 +55,25 @@ class _MessageTypeContainerState extends State<MessageTypeContainer> {
                 children: [
                   spacer(),
                   Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(0, 8, 0, 8),
-                        isCollapsed: true,
-                        isDense: true,
-                        hintText: 'Message',
-                        border: InputBorder.none,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                          maxHeight: (context.height - kToolbarHeight) / 2.5),
+                      child: ScrollConfiguration(
+                        behavior: NoGlowScrollBehavior(),
+                        child: Scrollbar(
+                          child: TextField(
+                            controller: _controller,
+                            decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                              isCollapsed: true,
+                              isDense: true,
+                              hintText: 'Message',
+                              border: InputBorder.none,
+                            ),
+                            maxLines: null,
+                          ),
+                        ),
                       ),
-                      maxLines: null,
                     ),
                   ),
                   //Row of Camera and Attachfile IconButton
@@ -72,14 +85,17 @@ class _MessageTypeContainerState extends State<MessageTypeContainer> {
           ),
         )),
         const SizedBox(width: 8),
-        Material(
-          color: context.primaryColor,
-          shape: CircleBorder(),
-          clipBehavior: Clip.hardEdge,
-          child: IconButton(
-            color: kWhiteColor,
-            icon: const Icon(Icons.mic),
-            onPressed: () {},
+        Align(
+          alignment: Alignment.topCenter,
+          child: Material(
+            color: context.primaryColor,
+            shape: CircleBorder(),
+            clipBehavior: Clip.hardEdge,
+            child: IconButton(
+              color: kWhiteColor,
+              icon: const Icon(Icons.mic),
+              onPressed: () {},
+            ),
           ),
         ),
       ]),
