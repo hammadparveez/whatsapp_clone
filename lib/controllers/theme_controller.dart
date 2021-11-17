@@ -27,7 +27,7 @@ class ThemeController extends StateNotifier<ThemeMode> {
   );
   static ThemeData get lightTheme {
     return ThemeData(
-        splashColor: kPrimaryColor,
+        splashColor: kDefaultSplashColor,
         textTheme: _textTheme,
         iconTheme: const IconThemeData(color: kLightDarkGrey, size: 26),
         colorScheme: const ColorScheme.light(
