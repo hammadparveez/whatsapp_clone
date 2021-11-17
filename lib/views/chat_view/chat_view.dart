@@ -11,7 +11,6 @@ import 'package:whatsapp_clone/views/chat_view/components/chat_selected_appbar.d
 import 'package:whatsapp_clone/views/chat_view/components/message_type_container.dart';
 import 'package:whatsapp_clone/views/chat_view/mock_chats.dart';
 import 'package:whatsapp_clone/views/components/custom_appbar.dart';
-import 'package:whatsapp_clone/views/components/custom_icon_button.dart';
 
 class ChatView extends StatelessWidget {
   const ChatView({Key? key}) : super(key: key);

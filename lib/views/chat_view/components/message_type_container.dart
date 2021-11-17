@@ -3,8 +3,29 @@ import 'package:whatsapp_clone/res/colors.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
 import 'package:whatsapp_clone/views/components/custom_icon_button.dart';
 
-class MessageTypeContainer extends StatelessWidget {
+class MessageTypeContainer extends StatefulWidget {
   const MessageTypeContainer({Key? key}) : super(key: key);
+
+  @override
+  State<MessageTypeContainer> createState() => _MessageTypeContainerState();
+}
+
+class _MessageTypeContainerState extends State<MessageTypeContainer> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+
+    _controller.addListener(() {
+      if (_controller.text.length == 1) {
+        setState(() {});
+      } else if (_controller.text.isEmpty) {
+        setState(() {});
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,26 +35,39 @@ class MessageTypeContainer extends StatelessWidget {
       child: Row(children: [
         Expanded(
             child: Container(
+          padding: EdgeInsets.only(bottom: 4),
           decoration: BoxDecoration(
             color: kWhiteColor,
-            borderRadius: BorderRadius.circular(50),
+            borderRadius: BorderRadius.circular(20),
           ),
-          child: Row(
+          child: Stack(
             children: [
-              _buildMessageIcon(Icons.emoji_emotions_outlined, () {}),
-              const Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(0, 8, 0, 8),
-                    isCollapsed: true,
-                    isDense: true,
-                    hintText: 'Message',
-                    border: InputBorder.none,
+              Positioned(
+                  bottom: 0,
+                  child:
+                      _buildMessageIcon(Icons.emoji_emotions_outlined, () {})),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  spacer(),
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                        isCollapsed: true,
+                        isDense: true,
+                        hintText: 'Message',
+                        border: InputBorder.none,
+                      ),
+                      maxLines: null,
+                    ),
                   ),
-                ),
+                  //Row of Camera and Attachfile IconButton
+                  spacer(),
+                ],
               ),
-              _buildMessageIcon(Icons.attach_file, () {}),
-              _buildMessageIcon(Icons.camera_alt, () {}),
+              endedButtons(),
             ],
           ),
         )),
@@ -44,11 +78,32 @@ class MessageTypeContainer extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           child: IconButton(
             color: kWhiteColor,
-            icon: Icon(Icons.mic),
+            icon: const Icon(Icons.mic),
             onPressed: () {},
           ),
         ),
       ]),
+    );
+  }
+
+  SizedBox spacer() {
+    return const SizedBox(
+      width: kMinInteractiveDimension * .8,
+    );
+  }
+
+  Widget endedButtons() {
+    return AnimatedPositioned(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.fastOutSlowIn,
+      bottom: 0,
+      right: _controller.text.isEmpty ? 0 : -kMinInteractiveDimension * .7,
+      child: Row(
+        children: [
+          _buildMessageIcon(Icons.attach_file, () {}),
+          _buildMessageIcon(Icons.camera_alt, () {}),
+        ],
+      ),
     );
   }
 
@@ -64,6 +119,3 @@ class MessageTypeContainer extends StatelessWidget {
     );
   }
 }
-
-
-
