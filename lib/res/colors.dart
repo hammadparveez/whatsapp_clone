@@ -11,3 +11,4 @@ const kDarkSecondaryColor = Color(0xFF23423F);
 const kCreamColor = Color(0xffECE5DD);
 const kChatColor = Color(0xffe1ffc7);
 const kDefaultSplashColor = Color(0x3BC8C8C8);
+const kBlueColor = Color(0x5734B8F1);

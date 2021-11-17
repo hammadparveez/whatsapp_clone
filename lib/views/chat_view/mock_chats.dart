@@ -31,7 +31,7 @@ class MockChats {
         userID: '123',
         messageID: '321',
         message:
-            'You know there, I\'have seen so many attack around, And It was a huge wildefire',
+            'You know there, I\'have seen so many attack around, And It was a huge wildefire\nYou know there, I\'have seen so many attack around, And It was a huge wildefire\n\nYou know there, I\'have seen so many attack around, And It was a huge wildefire',
         time: '10:10 AM',
         isSent: true),
     MessageModel(

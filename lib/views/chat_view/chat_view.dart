@@ -9,38 +9,37 @@ import 'package:whatsapp_clone/views/chat_view/components/message_type_container
 import 'package:whatsapp_clone/views/chat_view/mock_chats.dart';
 import 'package:whatsapp_clone/views/components/custom_icon_button.dart';
 
-class ChatView extends StatefulWidget {
+class ChatView extends StatelessWidget {
   const ChatView({Key? key}) : super(key: key);
 
-  @override
-  State<ChatView> createState() => _ChatViewState();
-}
-
-class _ChatViewState extends State<ChatView> {
-  final overlay = GlobalKey<OverlayState>();
-  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     var chats = MockChats().chats;
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: Container(
-        decoration: BoxDecoration(
+    var _bgImageDecoration = BoxDecoration(
           image: DecorationImage(
             image: Assets.images.chatBg,
             fit: BoxFit.cover,
           ),
-        ),
+        );
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      body: Container(
+        decoration: _bgImageDecoration,
         child: Column(
           children: [
-            const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: chats.length,
                 itemBuilder: (_, index) {
                   var chat = chats[index];
-                  return ChatBubbleWidget(chat: chat);
+                  var child = ChatBubbleWidget(chat: chat);
+                  return (index == 0)
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: child,
+                        )
+                      : child;
                 },
               ),
             ),
@@ -53,51 +52,47 @@ class _ChatViewState extends State<ChatView> {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      titleTextStyle: context.style.subtitle2?.copyWith(
-          height: 1.5,
-          color: kWhiteColor,
-          fontSize: 15,
-          overflow: TextOverflow.ellipsis,
-          fontWeight: FontWeight.normal),
+      titleTextStyle: _appBarTextStyle(context),
       leadingWidth: 70,
       titleSpacing: 0,
       leading: Container(
-        margin: EdgeInsets.all(8),
-        child: InkResponse(
-          highlightShape: BoxShape.rectangle,
+        margin: const EdgeInsets.all(8),
+        child: InkWell(
           borderRadius: BorderRadius.circular(30),
-          onTap: () {},
+          onTap: () => Navigator.pop(context),
           child: Row(
             children: [
-              Icon(Icons.arrow_back, size: 24),
-              Flexible(child: Assets.images.avatar.image(height: 35)),
+              const Icon(Icons.arrow_back),
+              Flexible(child: Assets.images.avatar.image()),
             ],
           ),
         ),
       ),
       title: InkWell(
         onTap: () {},
-        child: Row(
-          children: [
-            //  Assets.images.avatar.image(height: 35),
-            const SizedBox(width: 5),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Hammad Parveez Alex Murphy'),
-                  Text('online', style: TextStyle(fontSize: 12)),
-                ],
-              ),
-            ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text('Hammad Parveez Alex Murphy'),
+            Text('online', style: TextStyle(fontSize: 12)),
           ],
         ),
       ),
       actions: [
-        CustomIconButton(icon: Icon(Icons.videocam_rounded), onTap: () {}),
-        CustomIconButton(icon: Icon(Icons.phone), onTap: () {}),
-        CustomIconButton(icon: Icon(Icons.more_vert), onTap: () {}),
+        CustomIconButton(
+            icon: const Icon(Icons.videocam_rounded), onTap: () {}),
+        CustomIconButton(icon: const Icon(Icons.phone), onTap: () {}),
+        CustomIconButton(icon: const Icon(Icons.more_vert), onTap: () {}),
       ],
     );
+  }
+
+  TextStyle? _appBarTextStyle(BuildContext context) {
+    return context.style.subtitle2?.copyWith(
+        height: 1.5,
+        color: kWhiteColor,
+        fontSize: 15,
+        overflow: TextOverflow.ellipsis,
+        fontWeight: FontWeight.normal);
   }
 }
