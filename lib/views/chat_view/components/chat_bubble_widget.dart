@@ -14,17 +14,27 @@ class ChatBubbleWidget extends ConsumerWidget {
   }) : super(key: key);
   final MessageModel chat;
 
-  _selectItem(MessageController controller) {
+  _selectItem(WidgetRef ref) {
+    var controller = ref.watch(messageController);
     if (controller.selectedItems.contains(chat)) {
       controller.unSelectItem(chat);
+
+      ref
+          .watch(appbarUpdateController.notifier)
+          .showOrHideSecondaryAppBar(controller.selectedItems.length);
     } else if (controller.selectedItems.isNotEmpty) {
       controller.selectItem(chat);
     }
   }
 
-  _onLongTap(MessageController controller) {
+  _onLongTap(WidgetRef ref) {
+    var controller = ref.watch(messageController);
+
     controller.updateItemSelected();
     controller.selectItem(chat);
+    ref
+        .watch(appbarUpdateController.notifier)
+        .showOrHideSecondaryAppBar(controller.selectedItems.length);
   }
 
   @override
@@ -32,8 +42,8 @@ class ChatBubbleWidget extends ConsumerWidget {
     var controller = ref.watch(messageController);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () => _selectItem(controller),
-      onLongPress: () => _onLongTap(controller),
+      onTap: () => _selectItem(ref),
+      onLongPress: () => _onLongTap(ref),
       child: Container(
         margin: const EdgeInsets.fromLTRB(0, 4, 0, 4),
         foregroundDecoration: controller.selectedItems.contains(chat)
