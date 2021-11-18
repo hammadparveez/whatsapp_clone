@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:whatsapp_clone/gen/assets.gen.dart';
-import 'package:whatsapp_clone/models/chat_model/chat_model.dart';
+
 import 'package:whatsapp_clone/models/calls_model/calls_model.dart';
 import 'package:whatsapp_clone/res/colors.dart';
-import 'package:whatsapp_clone/views/chats/components/chat_list_tile.dart';
-import 'package:whatsapp_clone/views/chats/mock_models.dart';
+
 import 'package:whatsapp_clone/views/components/custom_icon_button.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
 import 'package:whatsapp_clone/views/components/custom_tile.dart';
@@ -38,8 +37,8 @@ final _mockCalls = [
   ),
 ];
 
-class CallsView extends StatelessWidget {
-  const CallsView({Key? key}) : super(key: key);
+class CallsTabView extends StatelessWidget {
+  const CallsTabView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -5,11 +5,13 @@ import 'package:whatsapp_clone/controllers/tabs_controller.dart';
 import 'package:whatsapp_clone/res/colors.dart';
 
 import 'package:whatsapp_clone/res/extensions.dart';
-import 'package:whatsapp_clone/views/calls/call_logs_view.dart';
-import 'package:whatsapp_clone/views/camera/camera_view.dart';
-import 'package:whatsapp_clone/views/chats/chat_view.dart';
+
 import 'package:whatsapp_clone/views/components/app_flexiblebar.dart';
-import 'package:whatsapp_clone/views/status/status_view.dart';
+
+import 'package:whatsapp_clone/views/tabs/calls/calls_logs_tab_view.dart';
+import 'package:whatsapp_clone/views/tabs/camera/camera_tab_view.dart';
+import 'package:whatsapp_clone/views/tabs/chats/chat_tab_view.dart';
+import 'package:whatsapp_clone/views/tabs/status/status_tab_view.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -23,10 +25,10 @@ class _MainViewState extends ConsumerState<MainView>
   late TabController _controller;
 
   final _tabs = const [
-    CameraView(),
-    ChatView(),
-    StatusView(),
-    CallsView(),
+    CameraTabView(),
+    ChatTabView(),
+    StatusTabView(),
+    CallsTabView(),
   ];
 
   @override

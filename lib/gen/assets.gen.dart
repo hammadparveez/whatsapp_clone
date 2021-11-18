@@ -12,6 +12,13 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/avatar.png
   AssetGenImage get avatar => const AssetGenImage('assets/images/avatar.png');
+
+  /// File path: assets/images/chat_bg.jpg
+  AssetGenImage get chatBg => const AssetGenImage('assets/images/chat_bg.jpg');
+
+  /// File path: assets/images/chat_bg_dark.jpg
+  AssetGenImage get chatBgDark =>
+      const AssetGenImage('assets/images/chat_bg_dark.jpg');
 }
 
 class Assets {
