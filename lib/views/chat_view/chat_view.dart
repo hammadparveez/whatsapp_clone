@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:whatsapp_clone/gen/assets.gen.dart';
+import 'package:whatsapp_clone/main.dart';
 import 'package:whatsapp_clone/pods.dart';
 import 'package:whatsapp_clone/res/colors.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
@@ -17,6 +19,8 @@ class ChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    cacheKeyboardHeight = cacheKeyboardHeight ?? (keyboardHeight > 0 ? keyboardHeight : null);
     var chats = MockChats().chats;
     var _bgImageDecoration = BoxDecoration(
       image: DecorationImage(
@@ -29,29 +33,31 @@ class ChatView extends StatelessWidget {
         primaryAppbar: MessageAppBar(),
         secondaryAppBar: MessageSelectedAppBar(),
       ),
-      body: Container(
-        decoration: _bgImageDecoration,
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: chats.length,
-                itemBuilder: (_, index) {
-                  var chat = chats[index];
-                  var child = ChatBubbleWidget(chat: chat);
-                  return (index == 0)
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: child,
-                        )
-                      : child;
-                },
+      body: LayoutBuilder(builder: (context, constraints) {
+        return Container(
+          decoration: _bgImageDecoration,
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: chats.length,
+                  itemBuilder: (_, index) {
+                    var chat = chats[index];
+                    var child = ChatBubbleWidget(chat: chat);
+                    return (index == 0)
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: child,
+                          )
+                        : child;
+                  },
+                ),
               ),
-            ),
-            const MessageTypeContainer(),
-          ],
-        ),
-      ),
+              MessageTypeContainer(height: constraints.maxHeight),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

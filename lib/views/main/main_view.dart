@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:whatsapp_clone/controllers/tabs_controller.dart';
 import 'package:whatsapp_clone/res/colors.dart';
@@ -91,7 +92,7 @@ class _MainViewState extends ConsumerState<MainView>
   Widget? _floatingActionButton() {
     return Builder(builder: (context) {
       final index = _controller.index;
-      print("Index $index");
+
       switch (index) {
         case 1:
           return FloatingActionButton(
