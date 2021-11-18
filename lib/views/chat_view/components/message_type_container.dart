@@ -34,8 +34,10 @@ class _MessageTypeContainerState extends State<MessageTypeContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //alignment: Alignment.bottomCenter,
       padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
       color: kCreamColor,
+      //constraints:BoxConstraints(maxHeight: (context.height - kToolbarHeight) / 2.5),
       child: Row(children: [
         Expanded(
             child: Container(
@@ -55,23 +57,19 @@ class _MessageTypeContainerState extends State<MessageTypeContainer> {
                 children: [
                   spacer(),
                   Expanded(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                          maxHeight: (context.height - kToolbarHeight) / 2.5),
-                      child: ScrollConfiguration(
-                        behavior: NoGlowScrollBehavior(),
-                        child: Scrollbar(
-                          child: TextField(
-                            controller: _controller,
-                            decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.fromLTRB(0, 8, 0, 8),
-                              isCollapsed: true,
-                              isDense: true,
-                              hintText: 'Message',
-                              border: InputBorder.none,
-                            ),
-                            maxLines: null,
+                    child: ScrollConfiguration(
+                      behavior: NoGlowScrollBehavior(),
+                      child: Scrollbar(
+                        child: TextField(
+                          controller: _controller,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+                            isCollapsed: true,
+                            isDense: true,
+                            hintText: 'Message',
+                            border: InputBorder.none,
                           ),
+                          maxLines: null,
                         ),
                       ),
                     ),
@@ -85,14 +83,19 @@ class _MessageTypeContainerState extends State<MessageTypeContainer> {
           ),
         )),
         const SizedBox(width: 8),
-        Align(
-          alignment: Alignment.topCenter,
+        Container(
+          alignment: Alignment.bottomCenter,
+          constraints: BoxConstraints(
+              minHeight: 50,
+              maxHeight: (context.height - kToolbarHeight) / 2.5),
           child: Material(
             color: context.primaryColor,
-            shape: CircleBorder(),
+            shape: const CircleBorder(),
             clipBehavior: Clip.hardEdge,
             child: IconButton(
               color: kWhiteColor,
+              constraints:
+                  BoxConstraints(minHeight: kMinInteractiveDimension * .8),
               icon: const Icon(Icons.mic),
               onPressed: () {},
             ),
