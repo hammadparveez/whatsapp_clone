@@ -35,73 +35,91 @@ class _MessageTypeContainerState extends State<MessageTypeContainer> {
   Widget build(BuildContext context) {
     return Container(
       //alignment: Alignment.bottomCenter,
-      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+      padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
       color: kCreamColor,
-      //constraints:BoxConstraints(maxHeight: (context.height - kToolbarHeight) / 2.5),
-      child: Row(children: [
-        Expanded(
-            child: Container(
-          padding: EdgeInsets.only(bottom: 4),
-          decoration: BoxDecoration(
-            color: kWhiteColor,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                  bottom: 0,
-                  child:
-                      _buildMessageIcon(Icons.emoji_emotions_outlined, () {})),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  spacer(),
-                  Expanded(
-                    child: ScrollConfiguration(
-                      behavior: NoGlowScrollBehavior(),
-                      child: Scrollbar(
-                        child: TextField(
-                          controller: _controller,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(0, 8, 0, 8),
-                            isCollapsed: true,
-                            isDense: true,
-                            hintText: 'Message',
-                            border: InputBorder.none,
+      constraints:
+          BoxConstraints(maxHeight: (context.height - kToolbarHeight) / 2.5),
+      child: Stack(children: [
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.only(bottom: 4),
+                decoration: BoxDecoration(
+                  color: kWhiteColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Stack(
+                  children: [
+                    Positioned(
+                        bottom: 0,
+                        child: _buildMessageIcon(
+                            Icons.emoji_emotions_outlined, () {})),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        spacer(),
+                        Expanded(
+                          child: ScrollConfiguration(
+                            behavior: NoGlowScrollBehavior(),
+                            child: Scrollbar(
+                              child: TextField(
+                                controller: _controller,
+                                decoration: const InputDecoration(
+                                  contentPadding:
+                                      EdgeInsets.fromLTRB(0, 8, 0, 8),
+                                  isCollapsed: true,
+                                  isDense: true,
+                                  hintText: 'Message',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
                           ),
-                          maxLines: null,
                         ),
-                      ),
+                        //Row of Camera and Attachfile IconButton
+                        spacer(),
+                      ],
                     ),
-                  ),
-                  //Row of Camera and Attachfile IconButton
-                  spacer(),
-                ],
+                    endedButtons(),
+                  ],
+                ),
               ),
-              endedButtons(),
-            ],
-          ),
-        )),
-        const SizedBox(width: 8),
-        Container(
-          alignment: Alignment.bottomCenter,
-          constraints: BoxConstraints(
-              minHeight: 50,
-              maxHeight: (context.height - kToolbarHeight) / 2.5),
+            ),
+            const SizedBox(
+                width: kMinInteractiveDimension + 8,
+                height: kMinInteractiveDimension * .9),
+          ],
+        ),
+        Positioned(
+          bottom: 0,
+          right: 0,
           child: Material(
             color: context.primaryColor,
             shape: const CircleBorder(),
             clipBehavior: Clip.hardEdge,
             child: IconButton(
               color: kWhiteColor,
-              constraints:
-                  BoxConstraints(minHeight: kMinInteractiveDimension * .8),
-              icon: const Icon(Icons.mic),
+              constraints: const BoxConstraints(
+                  minHeight: kMinInteractiveDimension * .8),
+              icon: _swtichingMicIcon(),
               onPressed: () {},
             ),
           ),
         ),
       ]),
+    );
+  }
+
+  AnimatedSwitcher _swtichingMicIcon() {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: _controller.text.isNotEmpty
+          ? const Icon(Icons.send, key: ValueKey('send_icon'))
+          : const Icon(Icons.mic, key: ValueKey('mic_icon')),
+      transitionBuilder: (widget, animation) =>
+          ScaleTransition(scale: animation, child: widget),
     );
   }
 
@@ -113,7 +131,7 @@ class _MessageTypeContainerState extends State<MessageTypeContainer> {
 
   Widget endedButtons() {
     return AnimatedPositioned(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.fastOutSlowIn,
       bottom: 0,
       right: _controller.text.isEmpty ? 0 : -kMinInteractiveDimension * .7,

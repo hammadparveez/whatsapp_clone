@@ -7,3 +7,4 @@ import 'package:whatsapp_clone/controllers/theme_controller.dart';
 final themeController = StateNotifierProvider<ThemeController, ThemeMode>((ref) => ThemeController());
 final appbarUpdateController = StateNotifierProvider<SecondaryAppBarVisiblityController, bool>((ref) => SecondaryAppBarVisiblityController());
 final messageController = ChangeNotifierProvider((ref) => MessageController());
+

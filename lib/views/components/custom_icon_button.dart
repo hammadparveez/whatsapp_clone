@@ -15,7 +15,7 @@ class CustomIconButton extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 30,
       width: kMinInteractiveDimension * factorWidth,
       child: Center(

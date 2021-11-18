@@ -4,4 +4,5 @@ import 'package:whatsapp_clone/views/app/app_view.dart';
 
 void main() {
   runApp(const ProviderScope(child: AppView()));
+  
 }
