@@ -23,6 +23,7 @@ class ThemeController extends StateNotifier<ThemeMode> {
   static const _textTheme = TextTheme(
     subtitle1: TextStyle(overflow: TextOverflow.ellipsis),
     bodyText1: TextStyle(overflow: TextOverflow.ellipsis),
+    bodyText2: TextStyle(fontSize: 16),
     headline6: TextStyle(color: kWhiteColor),
   );
   static ThemeData get lightTheme {

@@ -1,3 +1,4 @@
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,13 +15,28 @@ import 'package:whatsapp_clone/views/chat_view/components/message_type_container
 import 'package:whatsapp_clone/views/chat_view/mock_chats.dart';
 import 'package:whatsapp_clone/views/components/custom_appbar.dart';
 
-class ChatView extends StatelessWidget {
+class ChatView extends ConsumerStatefulWidget {
   const ChatView({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<ChatView> createState() => _ChatViewState();
+}
+
+class _ChatViewState extends ConsumerState<ChatView> {
+  
+  @override
+  void initState() {
+    super.initState();
+    
+                    
+    Future.microtask(() => ref.watch(emojiVisiblityController).reset());
+  }
 
   @override
   Widget build(BuildContext context) {
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-    cacheKeyboardHeight = cacheKeyboardHeight ?? (keyboardHeight > 0 ? keyboardHeight : null);
+    cacheKeyboardHeight =
+        cacheKeyboardHeight ?? (keyboardHeight > 0 ? keyboardHeight : null);
     var chats = MockChats().chats;
     var _bgImageDecoration = BoxDecoration(
       image: DecorationImage(
@@ -53,7 +69,7 @@ class ChatView extends StatelessWidget {
                   },
                 ),
               ),
-              MessageTypeContainer(height: constraints.maxHeight),
+              MessageTypeContainer( height: constraints.maxHeight),
             ],
           ),
         );
