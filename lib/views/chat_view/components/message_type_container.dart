@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:whatsapp_clone/config/without_glow_scroll_configuraiton.dart';
+import 'package:whatsapp_clone/controllers/_emoji_visiblity_controller.dart';
 import 'package:whatsapp_clone/main.dart';
 import 'package:whatsapp_clone/res/colors.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
@@ -38,20 +39,22 @@ class _MessageTypeContainerState extends State<MessageTypeContainer> {
   }
 
   _onShowEmojis() async {
-    final viewInsets = EdgeInsets.fromWindowPadding(
-        WidgetsBinding.instance!.window.viewInsets,
-        WidgetsBinding.instance!.window.devicePixelRatio);
+  
+    // final viewInsets = EdgeInsets.fromWindowPadding(
+    //     WidgetsBinding.instance!.window.viewInsets,
+    //     WidgetsBinding.instance!.window.devicePixelRatio);
 
-    var focusScope = FocusScope.of(context);
-    if (focusScope.hasFocus) {
-      _hadFocus = true;
-      _isEmojiVisible = true;
-      focusScope.unfocus();
-    } else if (_hadFocus) {
-      _hadFocus = false;
-      _isEmojiVisible = false;
-      focusScope.requestFocus();
-    }
+    // var focusScope = FocusScope.of(context);
+    // if (focusScope.hasFocus) {
+    //   _hadFocus = true;
+    //   focusScope.unfocus();
+
+    //   _isEmojiVisible = true;
+    // } else if (_hadFocus) {
+    //   _hadFocus = false;
+    //   _isEmojiVisible = false;
+    //   focusScope.requestFocus();
+    // }
   }
 
   @override
@@ -104,6 +107,7 @@ class _MessageTypeContainerState extends State<MessageTypeContainer> {
                                     behavior: NoGlowScrollBehavior(),
                                     child: Scrollbar(
                                       child: TextField(
+                                        focusNode: ,
                                         onTap: () {
                                           if (_isEmojiVisible) {
                                             setState(() {
@@ -165,11 +169,9 @@ class _MessageTypeContainerState extends State<MessageTypeContainer> {
                     child: SizedBox(
                       height: cacheKeyboardHeight ??
                           (widget.height - _textFieldHeight) * .5,
-                      child: EmojiPicker(
-                          onBackspacePressed: () => {print("OnBack Tap---")},
-                          onEmojiSelected: (category, emoji) {
-                            _controller.text += emoji.emoji;
-                          }),
+                      child: EmojiPicker(onEmojiSelected: (category, emoji) {
+                        _controller.text += emoji.emoji;
+                      }),
                     ),
                   ),
           ],
