@@ -28,6 +28,7 @@ class _AppViewState extends ConsumerState<AppView> {
       darkTheme: ThemeController.darkTheme,
       themeMode: ref.watch(themeController),
       onGenerateRoute: Routes.onGenerateRoute,
+      navigatorKey: navigatorKey,
     );
   }
 }

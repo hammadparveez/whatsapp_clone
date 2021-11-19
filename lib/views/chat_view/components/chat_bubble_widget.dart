@@ -1,7 +1,7 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:whatsapp_clone/controllers/message_controller.dart';
+import 'package:whatsapp_clone/controllers/chat_controller.dart';
 import 'package:whatsapp_clone/models/message_model/message_model.dart';
 import 'package:whatsapp_clone/pods.dart';
 import 'package:whatsapp_clone/res/colors.dart';
@@ -15,7 +15,7 @@ class ChatBubbleWidget extends ConsumerWidget {
   final MessageModel chat;
 
   _selectItem(WidgetRef ref) {
-    var controller = ref.watch(messageController);
+    var controller = ref.watch(chatController);
     if (controller.selectedItems.contains(chat)) {
       controller.unSelectItem(chat);
 
@@ -28,7 +28,7 @@ class ChatBubbleWidget extends ConsumerWidget {
   }
 
   _onLongTap(WidgetRef ref) {
-    var controller = ref.watch(messageController);
+    var controller = ref.watch(chatController);
 
     controller.updateItemSelected();
     controller.selectItem(chat);
@@ -39,7 +39,7 @@ class ChatBubbleWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    var controller = ref.watch(messageController);
+    var controller = ref.watch(chatController);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => _selectItem(ref),

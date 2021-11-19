@@ -52,8 +52,7 @@ class MessageAppBar extends StatelessWidget {
     );
   }
 
-
-    TextStyle? _appBarTextStyle(BuildContext context) {
+  TextStyle? _appBarTextStyle(BuildContext context) {
     return context.style.subtitle2?.copyWith(
         height: 1.5,
         color: kWhiteColor,
@@ -73,7 +72,7 @@ class MessageSelectedAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(messageController);
+    final controller = ref.watch(chatController);
     final isMoreItemSelected = controller.selectedItems.length > 1;
     return AppBar(
         systemOverlayStyle: _overlayColor,

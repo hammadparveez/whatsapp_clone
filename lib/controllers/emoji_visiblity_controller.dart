@@ -1,45 +1,27 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:whatsapp_clone/config/routes.dart';
 
-class EmojiVisiblityController extends ChangeNotifier {
-  EmojiVisiblityController() {
-    _messageFieldController.addListener(() {
-      if (length == 1) {
-        notifyListeners();
-      } else if (text.isEmpty) {
-        notifyListeners();
-      }
-    });
-  }
+class EmojiVisiblityController extends StateNotifier<bool> {
+  EmojiVisiblityController(this._node) : super(false) {}
 
-  final TextEditingController _messageFieldController = TextEditingController();
-  final FocusNode _messageFieldNode = FocusNode();
-  bool _isEmojiVisible = false;
-  TextEditingController get messageFieldController => _messageFieldController;
-
-  FocusNode get messageFieldNode => _messageFieldNode;
-
-  bool get isEmojiVisible => _isEmojiVisible;
-
-  String get text => _messageFieldController.text;
-  int get length => _messageFieldController.text.runes.length;
-  bool get isEmpty => text.isEmpty;
+  final FocusNode _node;
 
   onFieldTap() => _hideEmojiContainer();
 
   showEmojis() async {
-    if (!_messageFieldNode.hasFocus && !_isEmojiVisible) {
-      _isEmojiVisible = true;
-      notifyListeners();
-    } else if (_messageFieldNode.hasFocus) {
-      _messageFieldNode.unfocus();
+    if (!_node.hasFocus && !state) {
+      state = true;
+    } else if (_node.hasFocus) {
+      _node.unfocus();
+
       Future.delayed(const Duration(milliseconds: 200), () {
-        _isEmojiVisible = true;
-        notifyListeners();
+        state = true;
       });
     } else {
-      _isEmojiVisible = false;
-      _messageFieldNode.requestFocus();
-      notifyListeners();
+      state = false;
+      FocusScope.of(navigatorKey.currentContext!).requestFocus(_node);
+      //_node.requestFocus();
     }
   }
 
@@ -48,16 +30,23 @@ class EmojiVisiblityController extends ChangeNotifier {
   }
 
   bool _hideEmojiContainer() {
-    if (_isEmojiVisible) {
-      _isEmojiVisible = false;
-      notifyListeners();
+    if (state) {
+      state = false;
+
       return true;
     }
     return false;
   }
 
   void reset() {
-    _isEmojiVisible = false;
-    notifyListeners();
+    if (state) {
+      state = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    print("Emojii Disposer");
+    super.dispose();
   }
 }

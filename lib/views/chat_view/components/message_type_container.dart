@@ -30,16 +30,17 @@ class _MessageTypeContainerState extends ConsumerState<MessageTypeContainer> {
   //           WidgetsBinding.instance!.window.devicePixelRatio)
   //       .bottom;
 
-  // final viewInsets = EdgeInsets.fromWindowPadding(
-  //     WidgetsBinding.instance!.window.viewInsets,
-  //     WidgetsBinding.instance!.window.devicePixelRatio);
+  final viewInsets = EdgeInsets.fromWindowPadding(
+      WidgetsBinding.instance!.window.viewInsets,
+      WidgetsBinding.instance!.window.devicePixelRatio);
 
   @override
   Widget build(BuildContext context) {
+    
     double _textFieldHeight = (context.height * .15);
 
     return WillPopScope(
-      onWillPop: ref.watch(emojiVisiblityController).onBackPress,
+      onWillPop: ref.watch(emojiVisiblityController.notifier).onBackPress,
       child: Container(
         padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
         color: kCreamColor,
@@ -61,46 +62,14 @@ class _MessageTypeContainerState extends ConsumerState<MessageTypeContainer> {
                         ),
                         child: Stack(
                           children: [
-                            Positioned(
-                              bottom: 0,
-                              child: _buildMessageIcon(
-                                  Icons.emoji_emotions_outlined,
-                                  ref
-                                      .watch(emojiVisiblityController)
-                                      .showEmojis),
-                            ),
+                            _buildEmojiIcon(),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 spacer(),
-                                Expanded(
-                                  child: ScrollConfiguration(
-                                    behavior: NoGlowScrollBehavior(),
-                                    child: Scrollbar(
-                                      child: TextField(
-                                        focusNode: ref
-                                            .watch(emojiVisiblityController)
-                                            .messageFieldNode,
-                                        controller: ref
-                                            .watch(emojiVisiblityController)
-                                            .messageFieldController,
-                                        onTap: ref
-                                            .watch(emojiVisiblityController)
-                                            .onFieldTap,
-                                        decoration: const InputDecoration(
-                                          contentPadding:
-                                              EdgeInsets.fromLTRB(0, 8, 0, 8),
-                                          isCollapsed: true,
-                                          isDense: true,
-                                          hintText: 'Message',
-                                          border: InputBorder.none,
-                                        ),
-                                        maxLines: null,
-                                      ),
-                                    ),
-                                  ),
+                                const Expanded(
+                                  child: _MessageTextField(),
                                 ),
-                                //Row of Camera and Attachfile IconButton
                                 spacer(),
                               ],
                             ),
@@ -114,38 +83,51 @@ class _MessageTypeContainerState extends ConsumerState<MessageTypeContainer> {
                         height: kMinInteractiveDimension * .9),
                   ],
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Material(
-                    color: context.primaryColor,
-                    shape: const CircleBorder(),
-                    clipBehavior: Clip.hardEdge,
-                    child: IconButton(
-                      color: kWhiteColor,
-                      constraints: const BoxConstraints(
-                          minHeight: kMinInteractiveDimension * .8),
-                      icon: _swtichingMicIcon(),
-                      onPressed: () {},
-                    ),
-                  ),
-                ),
+                _buildSwtichedMicButton(),
               ]),
             ),
-            !ref.watch(emojiVisiblityController).isEmojiVisible
+            !ref.watch(emojiVisiblityController)
                 ? const SizedBox()
                 : Flexible(
-                    child: SizedBox(
-                      height: cacheKeyboardHeight ??
-                          (widget.height - _textFieldHeight) * .5,
-                      child: EmojiPicker(onEmojiSelected: (category, emoji) {
-                        var getController = ref.read(emojiVisiblityController);
-                        getController.messageFieldController.text +=
-                            emoji.emoji;
-                      }),
-                    ),
+                    child: _buildEmojiPicker(_textFieldHeight),
                   ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Positioned _buildEmojiIcon() {
+    return Positioned(
+      bottom: 0,
+      child: _buildMessageIcon(Icons.emoji_emotions_outlined,
+          ref.watch(emojiVisiblityController.notifier).showEmojis),
+    );
+  }
+
+  SizedBox _buildEmojiPicker(double _textFieldHeight) {
+    return SizedBox(
+      height: cacheKeyboardHeight ?? (widget.height - _textFieldHeight) * .5,
+      child: EmojiPicker(onEmojiSelected: (category, _emoji) {
+        ref.read(messageController).text += _emoji.emoji;
+      }),
+    );
+  }
+
+  Positioned _buildSwtichedMicButton() {
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      child: Material(
+        color: context.primaryColor,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.hardEdge,
+        child: IconButton(
+          color: kWhiteColor,
+          constraints:
+              const BoxConstraints(minHeight: kMinInteractiveDimension * .8),
+          icon: _swtichingMicIcon(),
+          onPressed: () {},
         ),
       ),
     );
@@ -154,7 +136,7 @@ class _MessageTypeContainerState extends ConsumerState<MessageTypeContainer> {
   AnimatedSwitcher _swtichingMicIcon() {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: !ref.watch(emojiVisiblityController).isEmpty
+      child: !ref.watch(messageController).isEmpty
           ? const Icon(Icons.send, key: ValueKey('send_icon'))
           : const Icon(Icons.mic, key: ValueKey('mic_icon')),
       transitionBuilder: (widget, animation) =>
@@ -173,7 +155,7 @@ class _MessageTypeContainerState extends ConsumerState<MessageTypeContainer> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.fastOutSlowIn,
       bottom: 0,
-      right: ref.watch(emojiVisiblityController).isEmpty
+      right: ref.watch(messageController).isEmpty
           ? 0
           : -kMinInteractiveDimension * .7,
       child: Row(
@@ -193,6 +175,34 @@ class _MessageTypeContainerState extends ConsumerState<MessageTypeContainer> {
         factorWidth: .8,
         icon: Icon(icon, size: 20),
         onTap: onTap,
+      ),
+    );
+  }
+}
+
+class _MessageTextField extends ConsumerWidget {
+  const _MessageTextField({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ScrollConfiguration(
+      behavior: NoGlowScrollBehavior(),
+      child: Scrollbar(
+        child: TextField(
+          focusNode: ref.read(messageController).messageFieldNode,
+          controller: ref.read(messageController).messageFieldController,
+          onTap: ref.read(emojiVisiblityController.notifier).onFieldTap,
+          decoration: const InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+            isCollapsed: true,
+            isDense: true,
+            hintText: 'Message',
+            border: InputBorder.none,
+          ),
+          maxLines: null,
+        ),
       ),
     );
   }

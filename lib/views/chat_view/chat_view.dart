@@ -23,13 +23,12 @@ class ChatView extends ConsumerStatefulWidget {
 }
 
 class _ChatViewState extends ConsumerState<ChatView> {
-  
   @override
   void initState() {
     super.initState();
-    
-                    
-    Future.microtask(() => ref.watch(emojiVisiblityController).reset());
+
+    Future.microtask(
+        () => ref.watch(emojiVisiblityController.notifier).reset());
   }
 
   @override
@@ -69,7 +68,7 @@ class _ChatViewState extends ConsumerState<ChatView> {
                   },
                 ),
               ),
-              MessageTypeContainer( height: constraints.maxHeight),
+              MessageTypeContainer(height: constraints.maxHeight),
             ],
           ),
         );
