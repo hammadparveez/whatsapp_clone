@@ -42,20 +42,24 @@ class CallsTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverOverlapInjector(
-          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-        ),
-        SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (_, index) {
-            final user = _mockCalls[index];
-            return _CallsViewTile(model: user);
-          },
-          childCount: _mockCalls.length,
-        )),
-      ],
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {}, child: const Icon(Icons.phone)),
+      body: CustomScrollView(
+        slivers: [
+          SliverOverlapInjector(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+          ),
+          SliverList(
+              delegate: SliverChildBuilderDelegate(
+            (_, index) {
+              final user = _mockCalls[index];
+              return _CallsViewTile(model: user);
+            },
+            childCount: _mockCalls.length,
+          )),
+        ],
+      ),
     );
   }
 }

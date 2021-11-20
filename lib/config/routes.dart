@@ -8,13 +8,12 @@ final navigatorKey = GlobalKey<NavigatorState>();
 class Routes {
   static const chatView = '/chat_view';
   static const userInfo = '/userInfo';
-  static const mainView = '/';
+  static const initial = '/';
 
   static Route? onGenerateRoute(RouteSettings settings) {
-    print("Settings $settings");
+  
     switch (settings.name) {
-      //case mainView:
-       // return MaterialPageRoute(builder: (_) => const MainView());
+      
       case chatView:
         return MaterialPageRoute(builder: (_) => const ChatView());
     }

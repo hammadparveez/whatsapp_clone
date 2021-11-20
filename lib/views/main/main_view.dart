@@ -24,8 +24,8 @@ class MainView extends ConsumerStatefulWidget {
 class _MainViewState extends ConsumerState<MainView>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
-  RestorationBucket? x;
-  final _tabs = [
+
+  final _tabs = const [
     CameraTabView(),
     ChatTabView(),
     StatusTabView(),
@@ -37,10 +37,6 @@ class _MainViewState extends ConsumerState<MainView>
     super.initState();
     _controller =
         TabController(length: TabsViewController.tabsLength, vsync: this);
-
-    _controller.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
@@ -52,7 +48,6 @@ class _MainViewState extends ConsumerState<MainView>
     var tabWidth = (remainingWidth / 3) - defaultPadding;
 
     return Scaffold(
-      floatingActionButton: _floatingActionButton(),
       body: NestedScrollView(
         headerSliverBuilder: (context, __) {
           return [
@@ -86,45 +81,9 @@ class _MainViewState extends ConsumerState<MainView>
             ),
           ];
         },
-        body: TabBarView(controller: _controller, children: [
-          CameraTabView(),
-          Builder(builder: (context) {
-            return ChatTabView();
-          }),
-          StatusTabView(),
-          CallsTabView(),
-        ]),
+        body: TabBarView(controller: _controller, children: _tabs),
       ),
     );
-  }
-
-  Widget? _floatingActionButton() {
-    return Builder(builder: (context) {
-      final index = _controller.index;
-
-      switch (index) {
-        case 1:
-          return FloatingActionButton(
-              onPressed: () {}, child: Icon(Icons.message));
-        case 2:
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              FloatingActionButton(
-                  mini: true, onPressed: () {}, child: Icon(Icons.edit)),
-              const SizedBox(height: 10),
-              FloatingActionButton(
-                  mini: true, onPressed: () {}, child: Icon(Icons.camera_alt)),
-            ],
-          );
-        case 3:
-          return FloatingActionButton(
-              onPressed: () {}, child: Icon(Icons.phone));
-        default:
-          return const SizedBox();
-      }
-    });
   }
 
   Container _cameraIconTab(double cameraTabWidth) {

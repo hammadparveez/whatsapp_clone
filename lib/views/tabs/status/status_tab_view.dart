@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/gen/assets.gen.dart';
 import 'package:whatsapp_clone/models/status_model/status_model.dart';
+import 'package:whatsapp_clone/res/colors.dart';
 
 import 'package:whatsapp_clone/res/extensions.dart';
 import 'package:whatsapp_clone/views/components/custom_tile.dart';
@@ -26,40 +27,97 @@ class StatusTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      shrinkWrap: true,
-      slivers: [
-        SliverOverlapInjector(
-          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+    return Stack(
+      children: [
+        CustomScrollView(
+          shrinkWrap: true,
+          slivers: [
+            SliverOverlapInjector(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            ),
+            SliverToBoxAdapter(child: _myStatusWidget(context)),
+            const SliverToBoxAdapter(
+                child: const StatusUpdatesText(title: 'Recent Updates')),
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+              (_, index) {
+                final user = mockStatus[index];
+                return StatusTile(
+                  statusModel: user,
+                  onTap: () {},
+                );
+              },
+              childCount: mockStatus.length,
+            )),
+            const SliverToBoxAdapter(
+                child: const StatusUpdatesText(title: 'Seen Status')),
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+              (_, index) {
+                final user = mockStatus[index];
+                return StatusTile(
+                  statusModel: user,
+                  onTap: () {},
+                );
+              },
+              childCount: mockStatus.length,
+            )),
+          ],
         ),
-        SliverToBoxAdapter(child: _myStatusWidget(context)),
-        const SliverToBoxAdapter(
-            child: const StatusUpdatesText(title: 'Recent Updates')),
-        SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (_, index) {
-            final user = mockStatus[index];
-            return StatusTile(
-              statusModel: user,
-              onTap: () {},
-            );
-          },
-          childCount: mockStatus.length,
-        )),
-        const SliverToBoxAdapter(
-            child: const StatusUpdatesText(title: 'Seen Status')),
-        SliverList(
-            delegate: SliverChildBuilderDelegate(
-          (_, index) {
-            final user = mockStatus[index];
-            return StatusTile(
-              statusModel: user,
-              onTap: () {},
-            );
-          },
-          childCount: mockStatus.length,
-        )),
+        Positioned(
+          bottom: 15,
+          right: 10,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const AnimatedEditButton(),
+              const SizedBox(height: 10),
+              FloatingActionButton(
+                  onPressed: () {}, child: Icon(Icons.camera_alt)),
+            ],
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class AnimatedEditButton extends StatefulWidget {
+  const AnimatedEditButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<AnimatedEditButton> createState() => _AnimatedEditButtonState();
+}
+
+class _AnimatedEditButtonState extends State<AnimatedEditButton> {
+  double _dy = 1;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      await Future.delayed(
+          const Duration(milliseconds: 300), () => setState(() => _dy = 0));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSlide(
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.decelerate,
+      offset: Offset(0, _dy),
+      child: Material(
+          shape: CircleBorder(),
+          color: kBitDarkGrey,
+          clipBehavior: Clip.hardEdge,
+          elevation: 4,
+          child: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.edit, color: kBlackColor))),
     );
   }
 }
