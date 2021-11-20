@@ -25,7 +25,7 @@ class _MainViewState extends ConsumerState<MainView>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
 
-  final _tabs = const [
+  final _tabs = [
     CameraTabView(),
     ChatTabView(),
     StatusTabView(),
@@ -39,8 +39,6 @@ class _MainViewState extends ConsumerState<MainView>
         TabController(length: TabsViewController.tabsLength, vsync: this);
 
     _controller.addListener(() {
-      print("Changing");
-
       setState(() {});
     });
   }
@@ -56,35 +54,46 @@ class _MainViewState extends ConsumerState<MainView>
     return Scaffold(
       floatingActionButton: _floatingActionButton(),
       body: NestedScrollView(
-        headerSliverBuilder: (_, __) {
+        headerSliverBuilder: (context, __) {
           return [
-            SliverAppBar(
-              pinned: true,
-              floating: true,
-              expandedHeight: 100,
-              shadowColor: Colors.black,
-              systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarBrightness: Brightness.light,
-                  statusBarIconBrightness: Brightness.light,
-                  statusBarColor: context.primaryColor),
-              flexibleSpace: const AppFlexibleBar(),
-              bottom: TabBar(
-                controller: _controller,
-                indicatorColor: kLightGrey,
-                isScrollable: true,
-                indicatorWeight: 3.5,
-                labelPadding: const EdgeInsets.symmetric(horizontal: 10),
-                tabs: [
-                  _cameraIconTab(cameraTabWidth),
-                  _tabWithTitle(tabWidth, 'Chats'),
-                  _tabWithTitle(tabWidth, 'Status'),
-                  _tabWithTitle(tabWidth, 'Calls'),
-                ],
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                pinned: true,
+                floating: true,
+                expandedHeight: 100,
+                forceElevated: true,
+                shadowColor: Colors.black,
+                systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarBrightness: Brightness.light,
+                    statusBarIconBrightness: Brightness.light,
+                    statusBarColor: context.primaryColor),
+                flexibleSpace: const AppFlexibleBar(),
+                bottom: TabBar(
+                  controller: _controller,
+                  indicatorColor: kLightGrey,
+                  isScrollable: true,
+                  indicatorWeight: 3.5,
+                  labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+                  tabs: [
+                    _cameraIconTab(cameraTabWidth),
+                    _tabWithTitle(tabWidth, 'Chats'),
+                    _tabWithTitle(tabWidth, 'Status'),
+                    _tabWithTitle(tabWidth, 'Calls'),
+                  ],
+                ),
               ),
             ),
           ];
         },
-        body: TabBarView(controller: _controller, children: _tabs),
+        body: TabBarView(controller: _controller, children: [
+          CameraTabView(),
+          Builder(builder: (context) {
+            return ChatTabView();
+          }),
+          StatusTabView(),
+          CallsTabView(),
+        ]),
       ),
     );
   }

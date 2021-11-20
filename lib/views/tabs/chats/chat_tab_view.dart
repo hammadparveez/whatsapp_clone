@@ -11,6 +11,10 @@ class ChatTabView extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
+        SliverOverlapInjector(
+        
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        ),
         SliverList(
             delegate: SliverChildBuilderDelegate(
           (_, index) {

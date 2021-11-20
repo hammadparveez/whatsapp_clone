@@ -27,7 +27,11 @@ class StatusTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      shrinkWrap: true,
       slivers: [
+        SliverOverlapInjector(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+        ),
         SliverToBoxAdapter(child: _myStatusWidget(context)),
         const SliverToBoxAdapter(
             child: const StatusUpdatesText(title: 'Recent Updates')),

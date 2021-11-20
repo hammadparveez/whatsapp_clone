@@ -25,22 +25,14 @@ class MessageTypeContainer extends ConsumerStatefulWidget {
 }
 
 class _MessageTypeContainerState extends ConsumerState<MessageTypeContainer> {
-  //  double _insets = EdgeInsets.fromWindowPadding(
-  //           WidgetsBinding.instance!.window.viewInsets,
-  //           WidgetsBinding.instance!.window.devicePixelRatio)
-  //       .bottom;
-
-  final viewInsets = EdgeInsets.fromWindowPadding(
-      WidgetsBinding.instance!.window.viewInsets,
-      WidgetsBinding.instance!.window.devicePixelRatio);
-
+  
   @override
   Widget build(BuildContext context) {
     
     double _textFieldHeight = (context.height * .15);
 
     return WillPopScope(
-      onWillPop: ref.watch(emojiVisiblityController.notifier).onBackPress,
+      onWillPop: ref.read(emojiVisiblityController.notifier).onBackPress,
       child: Container(
         padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
         color: kCreamColor,
