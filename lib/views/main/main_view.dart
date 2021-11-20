@@ -24,7 +24,7 @@ class MainView extends ConsumerStatefulWidget {
 class _MainViewState extends ConsumerState<MainView>
     with SingleTickerProviderStateMixin {
   late TabController _controller;
-
+  RestorationBucket? x;
   final _tabs = [
     CameraTabView(),
     ChatTabView(),

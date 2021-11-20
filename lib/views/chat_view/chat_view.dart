@@ -1,4 +1,3 @@
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,9 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:whatsapp_clone/gen/assets.gen.dart';
 import 'package:whatsapp_clone/main.dart';
-import 'package:whatsapp_clone/pods.dart';
-import 'package:whatsapp_clone/res/colors.dart';
-import 'package:whatsapp_clone/res/extensions.dart';
+
 import 'package:whatsapp_clone/views/chat_view/components/chat_bubble_widget.dart';
 import 'package:whatsapp_clone/views/chat_view/components/chat_selected_appbar.dart';
 import 'package:whatsapp_clone/views/chat_view/components/message_type_container.dart';
@@ -22,17 +19,40 @@ class ChatView extends ConsumerStatefulWidget {
   ConsumerState<ChatView> createState() => _ChatViewState();
 }
 
-class _ChatViewState extends ConsumerState<ChatView> {
+class _ChatViewState extends ConsumerState<ChatView> with RestorationMixin {
+  final _scrollIndex = RestorableDouble(0);
+  late ScrollController _controller;
   @override
   void initState() {
     super.initState();
+    _controller = ScrollController();
+    WidgetsBinding.instance!
+        .addPostFrameCallback((timeStamp) => _scrollToIndex());
+  }
 
-    Future.microtask(
-        () => ref.watch(emojiVisiblityController.notifier).reset());
+  void _scrollToIndex() async {
+    if (_controller.hasClients) {
+      _controller.animateTo(
+        _scrollIndex.value,
+        duration: Duration(milliseconds: 2500),
+        curve: Curves.linear,
+      );
+
+      _controller.addListener(() {
+        _scrollIndex.value = _controller.position.pixels;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(RestorationScope.of(context)!.read('scroll_index'));
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     cacheKeyboardHeight =
         cacheKeyboardHeight ?? (keyboardHeight > 0 ? keyboardHeight : null);
@@ -55,10 +75,11 @@ class _ChatViewState extends ConsumerState<ChatView> {
             children: [
               Expanded(
                 child: ListView.builder(
+                  controller: _controller,
                   itemCount: chats.length,
                   itemBuilder: (_, index) {
                     var chat = chats[index];
-                    var child = ChatBubbleWidget(chat: chat);
+                    var child = ChatBubbleWidget(chat: chat, index: index);
                     return (index == 0)
                         ? Padding(
                             padding: const EdgeInsets.only(top: 10),
@@ -74,5 +95,15 @@ class _ChatViewState extends ConsumerState<ChatView> {
         );
       }),
     );
+  }
+
+  @override
+  // TODO: implement restorationId
+  String? get restorationId => 'scroll_view';
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    // TODO: implement restoreState
+    registerForRestoration(_scrollIndex, 'scroll_index');
   }
 }

@@ -25,10 +25,8 @@ class MessageTypeContainer extends ConsumerStatefulWidget {
 }
 
 class _MessageTypeContainerState extends ConsumerState<MessageTypeContainer> {
-  
   @override
   Widget build(BuildContext context) {
-    
     double _textFieldHeight = (context.height * .15);
 
     return WillPopScope(
@@ -172,13 +170,33 @@ class _MessageTypeContainerState extends ConsumerState<MessageTypeContainer> {
   }
 }
 
-class _MessageTextField extends ConsumerWidget {
+class _MessageTextField extends ConsumerStatefulWidget {
   const _MessageTextField({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_MessageTextField> createState() => _MessageTextFieldState();
+}
+
+class _MessageTextFieldState extends ConsumerState<_MessageTextField>
+    with RestorationMixin {
+  final _text = RestorableStringN(null);
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      ref.read(messageController).messageFieldController.text =
+          _text.value ?? '';
+    });
+    ref.read(messageController).messageFieldController.addListener(() {
+      _text.value = ref.read(messageController).messageFieldController.text;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ScrollConfiguration(
       behavior: NoGlowScrollBehavior(),
       child: Scrollbar(
@@ -197,5 +215,13 @@ class _MessageTextField extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  @override
+  String? get restorationId => 'text_field';
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(_text, 'message');
   }
 }

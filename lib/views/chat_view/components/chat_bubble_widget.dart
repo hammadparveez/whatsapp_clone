@@ -11,8 +11,10 @@ class ChatBubbleWidget extends ConsumerWidget {
   const ChatBubbleWidget({
     Key? key,
     required this.chat,
+    required this.index,
   }) : super(key: key);
   final MessageModel chat;
+  final int index;
 
   _selectItem(WidgetRef ref) {
     var controller = ref.watch(chatController);
@@ -78,7 +80,7 @@ class ChatBubbleWidget extends ConsumerWidget {
     return Text.rich(
       TextSpan(
         children: [
-          TextSpan(text: chat.message),
+          TextSpan(text: chat.message + index.toString()),
           const WidgetSpan(child: SizedBox(width: 8)),
           //PlaceHolder
           WidgetSpan(

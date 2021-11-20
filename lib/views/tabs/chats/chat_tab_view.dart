@@ -21,7 +21,7 @@ class ChatTabView extends StatelessWidget {
             final user = mockList[index];
             return ChatListTile(
               user: user,
-              onTap: () => Navigator.pushNamed(context, Routes.chatView),
+              onTap: () => Navigator.restorablePushNamed(context, Routes.chatView),
             );
           },
           childCount: mockList.length,
