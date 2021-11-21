@@ -1,5 +1,8 @@
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:whatsapp_clone/config/auto_route.dart';
 import 'package:whatsapp_clone/config/routes.dart';
 import 'package:whatsapp_clone/views/tabs/chats/components/chat_list_tile.dart';
 import 'package:whatsapp_clone/views/tabs/chats/mock_models.dart';
@@ -24,7 +27,7 @@ class ChatTabView extends StatelessWidget {
               return ChatListTile(
                 user: user,
                 onTap: () =>
-                    Navigator.restorablePushNamed(context, Routes.chatView),
+                    AutoRouter.of(context).pushNamed(ChatViewRoute().path),
               );
             },
             childCount: mockList.length,

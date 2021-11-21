@@ -9,5 +9,5 @@ set cacheKeyboardHeight(double? value) =>
     _cacheKeyboardHeight ?? (_cacheKeyboardHeight = value);
 
 void main() {
-  runApp(const ProviderScope(child: AppView()));
+  runApp(ProviderScope(child: AppView()));
 }
