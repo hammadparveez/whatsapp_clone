@@ -52,7 +52,6 @@ class _ChatViewState extends ConsumerState<ChatView> with RestorationMixin {
 
   @override
   Widget build(BuildContext context) {
-    print(RestorationScope.of(context)!.read('scroll_index'));
     var keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     cacheKeyboardHeight =
         cacheKeyboardHeight ?? (keyboardHeight > 0 ? keyboardHeight : null);

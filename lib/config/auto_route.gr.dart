@@ -15,33 +15,45 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    MainViewRoute.name: (routeData) {
+    MainRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const MainView());
     },
-    ChatViewRoute.name: (routeData) {
+    ChatRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const ChatView());
+    },
+    AccountDetailRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const AccountDetailView());
     }
   };
 
   @override
   List<RouteConfig> get routes => [
-        RouteConfig(MainViewRoute.name, path: '/'),
-        RouteConfig(ChatViewRoute.name, path: '/chat-view')
+        RouteConfig(MainRoute.name, path: '/'),
+        RouteConfig(ChatRoute.name, path: '/chat-view'),
+        RouteConfig(AccountDetailRoute.name, path: '/account-detail-view')
       ];
 }
 
 /// generated route for [MainView]
-class MainViewRoute extends PageRouteInfo<void> {
-  const MainViewRoute() : super(name, path: '/');
+class MainRoute extends PageRouteInfo<void> {
+  const MainRoute() : super(name, path: '/');
 
-  static const String name = 'MainViewRoute';
+  static const String name = 'MainRoute';
 }
 
 /// generated route for [ChatView]
-class ChatViewRoute extends PageRouteInfo<void> {
-  const ChatViewRoute() : super(name, path: '/chat-view');
+class ChatRoute extends PageRouteInfo<void> {
+  const ChatRoute() : super(name, path: '/chat-view');
 
-  static const String name = 'ChatViewRoute';
+  static const String name = 'ChatRoute';
+}
+
+/// generated route for [AccountDetailView]
+class AccountDetailRoute extends PageRouteInfo<void> {
+  const AccountDetailRoute() : super(name, path: '/account-detail-view');
+
+  static const String name = 'AccountDetailRoute';
 }

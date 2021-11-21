@@ -7,10 +7,11 @@ import 'package:whatsapp_clone/pods.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 
-
+ final appRouter = AppRouter();
+ 
 class AppView extends ConsumerWidget {
   const AppView({Key? key}) : super(key: key);
-  static final appRouter = AppRouter();
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     

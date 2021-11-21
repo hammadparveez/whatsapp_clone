@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:whatsapp_clone/config/auto_route.dart';
 import 'package:whatsapp_clone/gen/assets.gen.dart';
 import 'package:whatsapp_clone/pods.dart';
 import 'package:whatsapp_clone/res/colors.dart';
@@ -34,7 +36,9 @@ class MessageAppBar extends StatelessWidget {
         ),
       ),
       title: InkWell(
-        onTap: () {},
+        onTap: () {
+          AutoRouter.of(context).push(const AccountDetailRoute());
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [

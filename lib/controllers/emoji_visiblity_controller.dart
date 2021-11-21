@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:whatsapp_clone/config/routes.dart';
+import 'package:whatsapp_clone/views/app/app_view.dart';
 
 class EmojiVisiblityController extends StateNotifier<bool> {
-  EmojiVisiblityController(this._node) : super(false) {}
+  EmojiVisiblityController(this._node) : super(false);
 
   final FocusNode _node;
 
@@ -20,7 +21,7 @@ class EmojiVisiblityController extends StateNotifier<bool> {
       });
     } else {
       state = false;
-      FocusScope.of(navigatorKey.currentContext!).requestFocus(_node);
+      FocusScope.of(appRouter.navigatorKey.currentContext!).requestFocus(_node);
       //_node.requestFocus();
     }
   }

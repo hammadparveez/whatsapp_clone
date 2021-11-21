@@ -27,7 +27,7 @@ class ChatTabView extends StatelessWidget {
               return ChatListTile(
                 user: user,
                 onTap: () =>
-                    AutoRouter.of(context).pushNamed(ChatViewRoute().path),
+                    AutoRouter.of(context).pushNamed(ChatRoute().path),
               );
             },
             childCount: mockList.length,
