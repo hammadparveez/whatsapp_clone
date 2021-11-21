@@ -30,7 +30,7 @@ class ThemeController extends StateNotifier<ThemeMode> {
     return ThemeData(
         splashColor: kDefaultSplashColor,
         textTheme: _textTheme,
-        
+        toggleableActiveColor: kPrimaryColor,
         iconTheme: const IconThemeData(color: kLightDarkGrey, size: 26),
         colorScheme: const ColorScheme.light(
           onSecondary: kWhiteColor,

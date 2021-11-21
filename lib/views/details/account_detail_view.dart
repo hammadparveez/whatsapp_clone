@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp_clone/gen/assets.gen.dart';
-import 'package:whatsapp_clone/res/colors.dart';
-import 'package:whatsapp_clone/views/components/custom_icon_button.dart';
-import 'package:whatsapp_clone/res/extensions.dart';
 
-class AccountDetailView extends StatelessWidget {
+import 'package:whatsapp_clone/gen/assets.gen.dart';
+import 'package:whatsapp_clone/models/chat_model/chat_model.dart';
+import 'package:whatsapp_clone/res/colors.dart';
+import 'package:whatsapp_clone/res/extensions.dart';
+import 'package:whatsapp_clone/views/components/custom_icon_button.dart';
+import 'package:whatsapp_clone/views/tabs/chats/components/chat_list_tile.dart';
+
+class AccountDetailView extends StatefulWidget {
   const AccountDetailView({Key? key}) : super(key: key);
 
   @override
+  State<AccountDetailView> createState() => _AccountDetailViewState();
+}
+
+class _AccountDetailViewState extends State<AccountDetailView> {
+  int _totalLength = 15;
+  int _trimeLength = 15 - 5;
+  int _remainingLength = 5;
+  final _spacer = SizedBox(height: 8);
+
+  @override
   Widget build(BuildContext context) {
+    final _themeData = Theme.of(context).copyWith(
+      textTheme: context.style.copyWith(
+          bodyText1: TextStyle(fontSize: 16, color: kPureBlack),
+          bodyText2: TextStyle(fontSize: 14)),
+    );
     return Scaffold(
       backgroundColor: kLightGrey,
       body: CustomScrollView(
@@ -17,11 +35,9 @@ class AccountDetailView extends StatelessWidget {
               actions: [
                 CustomIconButton(icon: Icon(Icons.more_vert)),
               ],
-              floating: true,
               pinned: true,
               expandedHeight: 200,
               flexibleSpace: FlexibleSpaceBar(
-                //titlePadding: EdgeInsetsDirectional.only(start: 5, bottom: 10),
                 background: Stack(
                   children: [
                     Assets.images.chatBg.image(
@@ -37,7 +53,6 @@ class AccountDetailView extends StatelessWidget {
                   'Uzair Ahmed',
                 ),
               )),
-
           SliverToBoxAdapter(
             child: DefaultTextStyle(
               style: context.style.caption!,
@@ -50,8 +65,8 @@ class AccountDetailView extends StatelessWidget {
                   children: [
                     Row(
                       children: const [
-                        Text('Media'),
-                        Text('Links'),
+                        Text('Media, '),
+                        Text('Links, '),
                         Text('and docs'),
                         Spacer(),
                         Text('14'),
@@ -65,53 +80,136 @@ class AccountDetailView extends StatelessWidget {
               ),
             ),
           ),
-
-          // SliverToBoxAdapter(
-          //   child: _buildMediaLinksDocs(context),
-          // ),
-          SliverList(
-              delegate: SliverChildListDelegate.fixed(
-            [
-              SwitchListTile.adaptive(
-                value: true,
-                tileColor: kWhiteColor,
-                onChanged: (_) {},
-                title: Text('Mute notifications'),
-              ),
-              _buildDivider(),
-              ListTileTheme(
-                tileColor: kWhiteColor,
-                child: Column(
-                  children: [
-                    ListTile(title: Text('Custom notifications')),
-                    _buildDivider(),
-                    ListTile(title: Text('Media Visiblity')),
-                    _buildDivider(),
-                    const SizedBox(height: 8),
-                    ListTile(
-                        title: Text('Disappearing messages'),
-                        trailing: Icon(Icons.timelapse)),
-                    ListTile(
-                        title: Text('Encryption'),
-                        subtitle: Text(
-                            'Messages and calls are end-to-end encrypted. Tap to verify'),
-                        trailing: Icon(Icons.lock)),
-                    const SizedBox(height: 8),
-                    ListTile(
-                        title: Text('Block'),
-                        leading: Icon(Icons.block, color: kRedColor)),
-                    const SizedBox(height: 8),
-                    ListTile(
-                        title: Text('Report contact'),
-                        leading: Icon(Icons.thumb_down, color: kRedColor)),
-                  ],
-                ),
-              ),
-            ],
-          )),
+          Theme(
+            data: _themeData,
+            child: ListTileTheme(
+              tileColor: kWhiteColor,
+              iconColor: kPrimaryColor,
+              child: SliverList(
+                  delegate: SliverChildListDelegate.fixed(
+                [
+                  SwitchListTile.adaptive(
+                    value: true,
+                    onChanged: (isSelected) {},
+                    title: Text('Mute notifications'),
+                  ),
+                  _buildDivider(),
+                  Column(
+                    children: [
+                      ListTile(title: Text('Custom notifications')),
+                      _buildDivider(),
+                      ListTile(title: Text('Media Visiblity')),
+                      _buildDivider(),
+                      _spacer,
+                      ListTile(
+                          title: Text('Disappearing messages'),
+                          trailing: Icon(Icons.timelapse)),
+                      ListTile(
+                          title: Text('Encryption'),
+                          subtitle: Text(
+                            'Messages and calls are end-to-end encrypted. Tap to verify',
+                            style: TextStyle(height: 1.4),
+                          ),
+                          trailing: Icon(Icons.lock)),
+                      _spacer,
+                      ListTile(
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('About and phone number',
+                                style: context.style.caption),
+                            _spacer,
+                            Text('Will be on the rising phase',
+                                maxLines: 2, overflow: TextOverflow.ellipsis),
+                          ],
+                        ),
+                        subtitle: Text('March 7'),
+                      ),
+                      ListTile(
+                        title: const Text('+923123456789'),
+                        subtitle: const Text('Mobile'),
+                        trailing: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _buildNumItem(Icons.message, () {}),
+                            _buildNumItem(Icons.phone, () {}),
+                            _buildNumItem(Icons.videocam, () {}),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  _spacer,
+                  Container(
+                    color: kWhiteColor,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _ChatDetailCommonText(
+                            text: 'Groups in common', total: _totalLength),
+                        ListView.builder(
+                            padding: EdgeInsets.zero,
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _trimeLength,
+                            itemBuilder: (_, index) {
+                              if (index == _trimeLength - 1 &&
+                                  _trimeLength != _totalLength) {
+                                return ListTile(
+                                  leading:
+                                      const Icon(Icons.keyboard_arrow_down),
+                                  minLeadingWidth: 8,
+                                  title: Row(
+                                    children: [
+                                      Text('${_totalLength - _trimeLength}'),
+                                      const SizedBox(width: 10),
+                                      const Text("More"),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      _trimeLength = _totalLength;
+                                    });
+                                  },
+                                );
+                              }
+                              return ListTile(
+                                  leading: CircleAvatar(
+                                      backgroundImage: Assets.images.avatar),
+                                  title: Text('Pakistan is Love'));
+                            }),
+                      ],
+                    ),
+                  ),
+                  _spacer,
+                  _buildRedListTile('Block', Icons.block, () {}),
+                  _spacer,
+                  _buildRedListTile('Report contact', Icons.thumb_down, () {}),
+                  _spacer,
+                ],
+              )),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+  InkWell _buildNumItem(IconData icon, VoidCallback onTap) {
+    return InkWell(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(icon),
+        ),
+        onTap: onTap);
+  }
+
+  ListTile _buildRedListTile(String text, IconData icon, VoidCallback? onTap) {
+    return ListTile(
+        tileColor: kWhiteColor,
+        title: Text(text),
+        leading: Icon(icon, color: kRedColor));
   }
 
   Container _buildDivider() {
@@ -123,8 +221,8 @@ class AccountDetailView extends StatelessWidget {
     );
   }
 
-  Container _buildMediaLinksDocs(BuildContext context) {
-    return Container(
+  Widget _buildMediaLinksDocs(BuildContext context) {
+    return SizedBox(
       height: 70,
       child: ListView.separated(
           separatorBuilder: (_, index) {
@@ -184,6 +282,36 @@ class AccountDetailView extends StatelessWidget {
             ],
           ),
         ));
+  }
+}
+
+class _ChatDetailCommonText extends StatelessWidget {
+  final String text;
+  final int total;
+  final Widget? trailing;
+  const _ChatDetailCommonText({
+    Key? key,
+    required this.text,
+    required this.total,
+    this.trailing,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTextStyle(
+      style: context.style.caption!,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+        child: Row(
+          children: [
+            Text(text),
+            Spacer(),
+            Text(total.toString()),
+            SizedBox(width: trailing != null ? 5 : 0),
+            trailing ?? const SizedBox(),
+          ],
+        ),
+      ),
+    );
   }
 }
 
