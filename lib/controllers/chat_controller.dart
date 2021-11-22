@@ -1,68 +1,36 @@
 import 'package:flutter/cupertino.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:collection/collection.dart';
 import 'package:whatsapp_clone/models/message_model/message_model.dart';
 import 'package:whatsapp_clone/models/chat_model/chat_model.dart';
 
-class UserChatController extends ChangeNotifier {
+class ItemSelectController<T> extends ChangeNotifier {
   bool _isAnyItemSelected = false;
-
-  final List<ChatModel> _selectedItems = [];
-
   bool get isAnyItemSelected => _isAnyItemSelected;
-  List<ChatModel> get selectedItems => _selectedItems;
 
-  void selectItem(ChatModel chat) {
-    
-    if (selectedItems.contains(chat)) {
-       _isAnyItemSelected = true;
-      unSelectItem(chat);
+  final List<T> _selectedItems = [];
+  List<T> get selectedItems => _selectedItems;
+
+  void selectItem(T item) {
+    bool hasItem = _selectedItems.contains(item);
+    if (hasItem) {
+      _selectedItems.remove(item);
     } else {
-      selectedItems.add(chat);
-      notifyListeners();
+      _selectedItems.add(item);
     }
-  
-  }
-
-  void unSelectItem(ChatModel chat) {
-    selectedItems.remove(chat);
+    _updateIfAnyItemSelected();
     notifyListeners();
   }
 
-  void updateItemSelected() {
-    _isAnyItemSelected = true;
-    notifyListeners();
+  _updateIfAnyItemSelected() {
+    if (_selectedItems.length == 1) {
+      _isAnyItemSelected = true;
+    } else if (_selectedItems.isEmpty) {
+      _isAnyItemSelected = false;
+    }
   }
 
-  void resetItemSelected() {
-    _isAnyItemSelected = false;
-    notifyListeners();
-  }
-}
-
-class ChatController extends ChangeNotifier {
-  bool _isAnyItemSelected = false;
-
-  final List<MessageModel> _selectedItems = [];
-
-  bool get isAnyItemSelected => _isAnyItemSelected;
-  List<MessageModel> get selectedItems => _selectedItems;
-
-  void selectItem(MessageModel chat) {
-    selectedItems.add(chat);
-    notifyListeners();
-  }
-
-  void unSelectItem(MessageModel chat) {
-    selectedItems.remove(chat);
-    notifyListeners();
-  }
-
-  void updateItemSelected() {
-    _isAnyItemSelected = true;
-    notifyListeners();
-  }
-
-  void resetItemSelected() {
+  unselectAll() {
+    _selectedItems.clear();
     _isAnyItemSelected = false;
     notifyListeners();
   }

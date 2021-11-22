@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:whatsapp_clone/controllers/tabs_controller.dart';
+import 'package:whatsapp_clone/pods.dart';
 import 'package:whatsapp_clone/res/colors.dart';
 
 import 'package:whatsapp_clone/res/extensions.dart';
@@ -42,6 +43,12 @@ class _MainViewState extends ConsumerState<MainView>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var cameraTabWidth = 40.0;
     var defaultPadding = 20.0;
@@ -56,10 +63,10 @@ class _MainViewState extends ConsumerState<MainView>
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAnimatedSwitcher(
-                duration: Duration(seconds: 2),
-                child:
-                    //_buildPrimaryAppBar(context, cameraTabWidth, tabWidth),
-                    _secondaryAppBar(),
+                duration: const Duration(milliseconds: 300),
+                child: ref.watch(chatTabItemController).isAnyItemSelected
+                    ? _secondaryAppBar()
+                    : _buildPrimaryAppBar(context, cameraTabWidth, tabWidth),
               ),
               // _buildPrimaryAppBar(context, cameraTabWidth, tabWidth),
             ),
@@ -71,12 +78,17 @@ class _MainViewState extends ConsumerState<MainView>
   }
 
   SliverAppBar _secondaryAppBar() {
+    var controller = ref.read(chatTabItemController);
+    var totalItemSelected =
+        ref.watch(chatTabItemController).selectedItems.length.toString();
     return SliverAppBar(
-      key: ValueKey('sec-app-bar'),
+      key: const ValueKey('sec-app-bar'),
       pinned: true,
-      leading: Icon(Icons.arrow_back),
-      title: Text('1'),
-      actions: [
+      leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => controller.unselectAll()),
+      title: Text(totalItemSelected),
+      actions: const [
         CustomIconButton(icon: Icon(Icons.star)),
         CustomIconButton(icon: Icon(Icons.edit)),
         CustomIconButton(icon: Icon(Icons.delete)),

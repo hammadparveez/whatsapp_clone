@@ -26,5 +26,3 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
     );
   }
 }
-
-

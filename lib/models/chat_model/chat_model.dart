@@ -1,14 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'chat_model.freezed.dart';
 part 'chat_model.g.dart';
 
 @freezed
 class ChatModel with _$ChatModel {
-  ChatModel._();
-  factory ChatModel({
+  const ChatModel._();
+  const factory ChatModel({
     required String userId,
     required String senderName,
     required String profileImage,

@@ -230,7 +230,7 @@ class __$ChatModelCopyWithImpl<$Res> extends _$ChatModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_ChatModel extends _ChatModel with DiagnosticableTreeMixin {
-  _$_ChatModel(
+  const _$_ChatModel(
       {required this.userId,
       required this.senderName,
       required this.profileImage,
@@ -325,7 +325,7 @@ class _$_ChatModel extends _ChatModel with DiagnosticableTreeMixin {
 }
 
 abstract class _ChatModel extends ChatModel {
-  factory _ChatModel(
+  const factory _ChatModel(
       {required String userId,
       required String senderName,
       required String profileImage,
@@ -335,7 +335,7 @@ abstract class _ChatModel extends ChatModel {
       bool isRead,
       bool isMute,
       bool isArchived}) = _$_ChatModel;
-  _ChatModel._() : super._();
+  const _ChatModel._() : super._();
 
   factory _ChatModel.fromJson(Map<String, dynamic> json) =
       _$_ChatModel.fromJson;

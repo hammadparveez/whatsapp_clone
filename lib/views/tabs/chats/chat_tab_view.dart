@@ -11,7 +11,7 @@ import 'package:whatsapp_clone/views/tabs/chats/mock_models.dart';
 
 class ChatTabView extends ConsumerWidget {
   const ChatTabView({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -29,14 +29,15 @@ class ChatTabView extends ConsumerWidget {
               return ChatListTile(
                 user: user,
                 onLongTap: () {
-                  ref.read(userChatController).selectItem(user);
+                  ref.read(chatTabItemController).selectItem(user);
                 },
                 onTap: () {
-                  print("${ref.read(userChatController).isAnyItemSelected}");
-                  if (ref.read(userChatController).isAnyItemSelected) {
-                    ref.read(userChatController).selectItem(user);
+                  // AutoRouter.of(context).pushNamed(const ChatRoute().path);
+
+                  if (ref.read(chatTabItemController).isAnyItemSelected) {
+                    ref.read(chatTabItemController).selectItem(user);
                   } else {
-                    //AutoRouter.of(context).pushNamed(const ChatRoute().path);
+                    AutoRouter.of(context).pushNamed(const ChatRoute().path);
                   }
                 },
               );

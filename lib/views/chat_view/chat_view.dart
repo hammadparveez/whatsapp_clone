@@ -34,8 +34,8 @@ class _ChatViewState extends ConsumerState<ChatView> with RestorationMixin {
     if (_controller.hasClients) {
       _controller.animateTo(
         _scrollIndex.value,
-        duration: Duration(milliseconds: 2500),
-        curve: Curves.linear,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.decelerate,
       );
 
       _controller.addListener(() {
@@ -78,7 +78,8 @@ class _ChatViewState extends ConsumerState<ChatView> with RestorationMixin {
                   itemCount: chats.length,
                   itemBuilder: (_, index) {
                     var chat = chats[index];
-                    var child = ChatBubbleWidget(chat: chat, index: index);
+                    var child = ChatBubbleWidget(
+                         chat: chat, index: index);
                     return (index == 0)
                         ? Padding(
                             padding: const EdgeInsets.only(top: 10),

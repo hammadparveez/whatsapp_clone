@@ -29,8 +29,8 @@ class ChatListTile extends CustomTile<ChatModel> {
                 right: 0,
                 bottom: 0,
                 child: Container(
-                    padding: EdgeInsets.all(2),
-                    decoration: BoxDecoration(
+                    padding: const   EdgeInsets.all(2),
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: kPrimaryColor,
                     ),
@@ -38,7 +38,7 @@ class ChatListTile extends CustomTile<ChatModel> {
               ),
               builder: (context, ref, child) {
                 return ref
-                        .watch(userChatController)
+                        .watch(chatTabItemController)
                         .selectedItems
                         .contains(user)
                     ? child!

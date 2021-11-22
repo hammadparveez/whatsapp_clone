@@ -90,7 +90,7 @@ class _CallsViewTile extends CustomTile<CallModel> {
       ),
       trailing: CustomIconButton(
         icon: model.isVideo
-            ? _buildIcon(context, Icons.video_call, size: 30)
+            ? _buildIcon(context, Icons.videocam_rounded, size: 30)
             : _buildIcon(context, Icons.phone, size: 24),
         onTap: () {},
       ),

@@ -17,35 +17,32 @@ class ChatBubbleWidget extends ConsumerWidget {
   final int index;
 
   _selectItem(WidgetRef ref) {
-    var controller = ref.watch(chatController);
-    if (controller.selectedItems.contains(chat)) {
-      controller.unSelectItem(chat);
-
-      ref
-          .watch(appbarUpdateController.notifier)
-          .showOrHideSecondaryAppBar(controller.selectedItems.length);
-    } else if (controller.selectedItems.isNotEmpty) {
-      controller.selectItem(chat);
-    }
+    var controller = ref.read(messageItemController);
+    controller.selectItem(chat);
   }
 
-  _onLongTap(WidgetRef ref) {
-    var controller = ref.watch(chatController);
+  _eventListener(WidgetRef ref) {
+    ref.listen(messageItemController,
+        (ItemSelectController? previous, ItemSelectController next) {
+      var _appbarUpdateController = ref.read(appbarUpdateController.notifier);
 
-    controller.updateItemSelected();
-    controller.selectItem(chat);
-    ref
-        .watch(appbarUpdateController.notifier)
-        .showOrHideSecondaryAppBar(controller.selectedItems.length);
+      if (next.isAnyItemSelected) {
+        _appbarUpdateController.showOrHideSecondaryAppBar(true);
+      } else {
+        _appbarUpdateController.showOrHideSecondaryAppBar(false);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context, ref) {
-    var controller = ref.watch(chatController);
+    _eventListener(ref);
+    var controller = ref.watch(messageItemController);
     return GestureDetector(
+     
       behavior: HitTestBehavior.translucent,
       onTap: () => _selectItem(ref),
-      onLongPress: () => _onLongTap(ref),
+      onLongPress: () => _selectItem(ref),
       child: Container(
         margin: const EdgeInsets.fromLTRB(0, 4, 0, 4),
         foregroundDecoration: controller.selectedItems.contains(chat)
@@ -80,7 +77,7 @@ class ChatBubbleWidget extends ConsumerWidget {
     return Text.rich(
       TextSpan(
         children: [
-          TextSpan(text: chat.message + index.toString()),
+          TextSpan(text: chat.message),
           const WidgetSpan(child: SizedBox(width: 8)),
           //PlaceHolder
           WidgetSpan(

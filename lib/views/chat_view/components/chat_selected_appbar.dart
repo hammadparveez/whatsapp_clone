@@ -76,12 +76,15 @@ class MessageSelectedAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.watch(chatController);
+    final controller = ref.watch(messageItemController);
     final isMoreItemSelected = controller.selectedItems.length > 1;
     return AppBar(
         systemOverlayStyle: _overlayColor,
         backgroundColor: kDarkPrimaryColor,
         title: Text(controller.selectedItems.length.toString()),
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => controller.unselectAll()),
         actions: [
           isMoreItemSelected
               ? const SizedBox()
