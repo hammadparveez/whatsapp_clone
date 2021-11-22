@@ -1,6 +1,43 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:whatsapp_clone/models/message_model/message_model.dart';
+import 'package:whatsapp_clone/models/chat_model/chat_model.dart';
+
+class UserChatController extends ChangeNotifier {
+  bool _isAnyItemSelected = false;
+
+  final List<ChatModel> _selectedItems = [];
+
+  bool get isAnyItemSelected => _isAnyItemSelected;
+  List<ChatModel> get selectedItems => _selectedItems;
+
+  void selectItem(ChatModel chat) {
+    
+    if (selectedItems.contains(chat)) {
+       _isAnyItemSelected = true;
+      unSelectItem(chat);
+    } else {
+      selectedItems.add(chat);
+      notifyListeners();
+    }
+  
+  }
+
+  void unSelectItem(ChatModel chat) {
+    selectedItems.remove(chat);
+    notifyListeners();
+  }
+
+  void updateItemSelected() {
+    _isAnyItemSelected = true;
+    notifyListeners();
+  }
+
+  void resetItemSelected() {
+    _isAnyItemSelected = false;
+    notifyListeners();
+  }
+}
 
 class ChatController extends ChangeNotifier {
   bool _isAnyItemSelected = false;
@@ -39,8 +76,6 @@ class MessageController extends ChangeNotifier {
       } else if (text.isEmpty) {
         notifyListeners();
       }
-
-    
     });
   }
   final TextEditingController _messageFieldController = TextEditingController();

@@ -14,6 +14,7 @@ final appbarUpdateController =
         (ref) => SecondaryAppBarVisiblityController());
 //Chat(List Of Messages) controller
 final chatController = ChangeNotifierProvider((ref) => ChatController());
+final userChatController = ChangeNotifierProvider((ref) => UserChatController());
 
 //Message Controller
 final messageController = ChangeNotifierProvider((ref) => MessageController());

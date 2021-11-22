@@ -8,11 +8,13 @@ import 'package:whatsapp_clone/res/colors.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
 
 import 'package:whatsapp_clone/views/components/app_flexiblebar.dart';
+import 'package:whatsapp_clone/views/components/custom_icon_button.dart';
 
 import 'package:whatsapp_clone/views/tabs/calls/calls_logs_tab_view.dart';
 import 'package:whatsapp_clone/views/tabs/camera/camera_tab_view.dart';
 import 'package:whatsapp_clone/views/tabs/chats/chat_tab_view.dart';
 import 'package:whatsapp_clone/views/tabs/status/status_tab_view.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -53,35 +55,61 @@ class _MainViewState extends ConsumerState<MainView>
           return [
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                pinned: true,
-                floating: true,
-                expandedHeight: 100,
-                forceElevated: true,
-                shadowColor: Colors.black,
-                systemOverlayStyle: SystemUiOverlayStyle(
-                    statusBarBrightness: Brightness.light,
-                    statusBarIconBrightness: Brightness.light,
-                    statusBarColor: context.primaryColor),
-                flexibleSpace: const AppFlexibleBar(),
-                bottom: TabBar(
-                  controller: _controller,
-                  indicatorColor: kLightGrey,
-                  isScrollable: true,
-                  indicatorWeight: 3.5,
-                  labelPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  tabs: [
-                    _cameraIconTab(cameraTabWidth),
-                    _tabWithTitle(tabWidth, 'Chats'),
-                    _tabWithTitle(tabWidth, 'Status'),
-                    _tabWithTitle(tabWidth, 'Calls'),
-                  ],
-                ),
+              sliver: SliverAnimatedSwitcher(
+                duration: Duration(seconds: 2),
+                child:
+                    //_buildPrimaryAppBar(context, cameraTabWidth, tabWidth),
+                    _secondaryAppBar(),
               ),
+              // _buildPrimaryAppBar(context, cameraTabWidth, tabWidth),
             ),
           ];
         },
         body: TabBarView(controller: _controller, children: _tabs),
+      ),
+    );
+  }
+
+  SliverAppBar _secondaryAppBar() {
+    return SliverAppBar(
+      key: ValueKey('sec-app-bar'),
+      pinned: true,
+      leading: Icon(Icons.arrow_back),
+      title: Text('1'),
+      actions: [
+        CustomIconButton(icon: Icon(Icons.star)),
+        CustomIconButton(icon: Icon(Icons.edit)),
+        CustomIconButton(icon: Icon(Icons.delete)),
+        CustomIconButton(icon: Icon(Icons.more_vert)),
+      ],
+    );
+  }
+
+  SliverAppBar _buildPrimaryAppBar(
+      BuildContext context, double cameraTabWidth, double tabWidth) {
+    return SliverAppBar(
+      pinned: true,
+      floating: true,
+      expandedHeight: 100,
+      forceElevated: true,
+      shadowColor: Colors.black,
+      systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.light,
+          statusBarColor: context.primaryColor),
+      flexibleSpace: const AppFlexibleBar(),
+      bottom: TabBar(
+        controller: _controller,
+        indicatorColor: kLightGrey,
+        isScrollable: true,
+        indicatorWeight: 3.5,
+        labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+        tabs: [
+          _cameraIconTab(cameraTabWidth),
+          _tabWithTitle(tabWidth, 'Chats'),
+          _tabWithTitle(tabWidth, 'Status'),
+          _tabWithTitle(tabWidth, 'Calls'),
+        ],
       ),
     );
   }

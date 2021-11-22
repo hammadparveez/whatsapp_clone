@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:whatsapp_clone/pods.dart';
 import 'package:whatsapp_clone/res/colors.dart';
 import 'package:whatsapp_clone/res/extensions.dart';
 import 'package:whatsapp_clone/models/chat_model/chat_model.dart';
@@ -19,7 +21,31 @@ class ChatListTile extends CustomTile<ChatModel> {
     return ListTile(
       onTap: onTap,
       onLongPress: onLongTap,
-      leading: CircleAvatar(child: Image.asset(user.profileImage)),
+      leading: Stack(
+        children: [
+          CircleAvatar(child: Image.asset(user.profileImage)),
+          Consumer(
+              child: Positioned(
+                right: 0,
+                bottom: 0,
+                child: Container(
+                    padding: EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: kPrimaryColor,
+                    ),
+                    child: Icon(Icons.done, size: 15, color: kWhiteColor)),
+              ),
+              builder: (context, ref, child) {
+                return ref
+                        .watch(userChatController)
+                        .selectedItems
+                        .contains(user)
+                    ? child!
+                    : const SizedBox();
+              }),
+        ],
+      ),
       title: Text(user.senderName, maxLines: 1),
       subtitle: Text(user.senderName + ': ' + user.msg,
           maxLines: 1, overflow: TextOverflow.ellipsis),
